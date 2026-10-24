@@ -605,5 +605,15 @@ function graphOv(){ov('GRAPH',(bd,cl)=>{
  parse();draw()})}
 ACT.graph=graphOv;ACT.base=baseOv;
 </script>
+ <script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js')
+        .then(reg => console.log('Service Worker registered!'))
+        .catch(err => console.log('Service Worker error:', err));
+    });
+  }
+ </script>
+
 
 </body></html>
