@@ -3,7 +3,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>নির্ভুল ক্যালক</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
+<style>html.boot body{visibility:hidden}
+html{background:var(--bg)}
+
 :root{--bg:#f3f5f4;--sf:#fff;--key:#e6eae8;--fn:#d5ddda;--tx:#15191d;--dim:#6b7780;--ac:#0a8f72;--acx:#fff;--wn:#b36b00;--er:#c62828;--ln:#cfd7d3;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#101319;--sf:#171b23;--key:#232834;--fn:#1c212b;--tx:#eef2f1;--dim:#8793a0;--ac:#3dd6b0;--acx:#07241c;--wn:#f2b84b;--er:#ff6b6b;--ln:#2b3240;color-scheme:dark}}
 :root[data-theme="dark"]{--bg:#101319;--sf:#171b23;--key:#232834;--fn:#1c212b;--tx:#eef2f1;--dim:#8793a0;--ac:#3dd6b0;--acx:#07241c;--wn:#f2b84b;--er:#ff6b6b;--ln:#2b3240;color-scheme:dark}
@@ -38,7 +40,84 @@ button:focus-visible{outline:2px solid var(--ac);outline-offset:1px}
 .it span{display:block;color:var(--dim);font-size:14px;word-break:break-all}.it b{font-size:20px;color:var(--ac);word-break:break-all}
 .cr{display:inline-block;width:2px;height:1.1em;background:var(--ac);vertical-align:middle;margin:0 1px}.fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;margin:0 3px;font-size:.9em}.fr>span{padding:0 4px;min-width:14px}.fr>span:first-child{border-bottom:2px solid currentColor}#pp{display:block;min-height:38px;text-align:left;color:var(--tx);cursor:text;font:500 24px/1.6 "IBM Plex Mono",ui-monospace,monospace;overflow-x:auto;white-space:nowrap;padding-bottom:4px}
 .empty{color:var(--dim);text-align:center;margin-top:40px}
-</style></head><body>
+
+
+.ov{position:absolute;inset:0;background:var(--bg);display:flex;flex-direction:column;padding:12px 14px;padding-top:calc(12px + env(safe-area-inset-top,0px));z-index:9}
+.ov header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}.ov h2{margin:0;font-size:18px}
+.ov .bt{height:38px;padding:0 14px;font-family:inherit;font-size:14px}
+.bd{overflow-y:auto;flex:1;min-height:0}
+.gr{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.gr button{height:54px;font-size:15px;line-height:1.15}.gr small{display:block;font-size:10px;color:var(--dim);font-family:system-ui,sans-serif}
+.ov textarea,.ov input{width:100%;background:var(--sf);color:var(--tx);border:1px solid var(--ln);border-radius:10px;padding:8px;font:16px "IBM Plex Mono",ui-monospace,monospace;margin:4px 0 8px}
+.ov table{border-collapse:collapse;margin:8px 0}.ov td{border:1px solid var(--ln);padding:6px 10px;font-family:"IBM Plex Mono",ui-monospace,monospace}
+.ov p{margin:4px 0;color:var(--dim);font-size:13px}.rw{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}.rw button{height:38px;padding:0 12px;font-size:14px}.rw button.on{background:var(--ac);color:var(--acx)}
+.lb{display:flex;justify-content:space-between;gap:12px;padding:9px 2px;border-bottom:1px solid var(--ln);font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:14px;cursor:pointer}
+
+
+:root{--pu:#6d4bd8}@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--pu:#b79cff}}:root[data-theme="dark"]{--pu:#b79cff}
+#pad{display:flex;flex-direction:column;gap:2px;padding:6px 8px 8px;overflow:hidden}
+.g6,.g5{display:grid;gap:0 6px;min-height:0}.g6{flex:5;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(5,1fr)}.g5{flex:4;grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(4,1fr)}
+.c{display:flex;flex-direction:column;min-height:0;min-width:0}.lab{height:14px;display:flex;justify-content:center;gap:5px;font-size:10px;line-height:14px;white-space:nowrap;overflow:hidden}.g5 .lab{font-size:11px}
+.ys{color:var(--wn)}.ps{color:var(--pu)}
+.c button{flex:1;height:auto;min-height:0;min-width:0;border-radius:10px;font:500 14px system-ui,"Noto Sans Bengali",sans-serif;padding:0}
+.c button.n,.c button.op,.c button.eq{font-size:22px;background:var(--key)}.c button.o{background:#e8894a;color:#1a0f05;font-size:20px}
+.c button.f{background:var(--fn)}.c button.shk{background:var(--wn);color:#1a1405;font-weight:700}.c button.alk{background:var(--pu);color:#fff;font-weight:700}.c button.act{outline:3px solid var(--tx)}
+.dp{display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:1fr 1fr 1fr;background:var(--fn);border-radius:26px;padding:3px;min-height:0}.dp button{background:transparent;color:var(--dim);font-size:15px;border-radius:50%;padding:0;height:auto}.dc{grid-column:2;grid-row:2;border-radius:50%;background:var(--bg);margin:18%}
+#st{margin-left:auto;color:var(--wn);font-weight:600;font-size:12px}#mem{margin-left:0;font-size:12px}
+
+
+body,button{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;touch-action:manipulation}
+#inp,.ov textarea,.ov input{-webkit-user-select:text;user-select:text}
+.top{margin:6px 8px 0;border-radius:18px;padding:6px 12px;background:#d6e5dd;color:var(--tx);--tx:#0f1f19;--dim:#58705f;--ac:#0a7a5d;--wn:#8a5200;--er:#c62828;--fn:#bcd0c5;--key:#bcd0c5;--ln:#a8bdb2}
+.c button.eq{background:var(--ac);color:var(--acx)}
+.sp{display:inline-block;font-size:.62em;vertical-align:.85em;line-height:0;margin-left:1px}
+.rd{display:inline-flex;align-items:flex-end}.rs{font-size:1.05em;line-height:1.2}.rov{border-top:2px solid currentColor;padding:0 3px;margin-top:3px;display:inline-block;line-height:1.3}.ix{font-size:.5em;align-self:flex-start;margin-right:-1px}
+.bx{font-weight:400;opacity:.7}
+
+
+:root{--bg:#f6f2ff;--sf:#fff;--key:#fff;--fn:#ece6ff;--tx:#1c1640;--dim:#6b6499;--ac:#00a98a;--acx:#fff;--wn:#b85f00;--pu:#d6246e;--er:#d62839;--ln:#d9d0f5;--k1:#fff;--k2:#f1ecff;--f1:#efe9ff;--f2:#ddd3ff;--padbg:rgba(255,255,255,.72);--glow:#ff6fb5;--g1:rgba(255,111,181,.28);--g2:rgba(34,211,238,.24)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b0920;--sf:#141033;--key:#2a2468;--fn:#1b1744;--tx:#f6f4ff;--dim:#a39fd6;--ac:#2ef2c0;--acx:#03201a;--wn:#ffc857;--pu:#ff7ac0;--er:#ff6b81;--ln:#35306e;--k1:#2f2979;--k2:#231e58;--f1:#241f56;--f2:#181440;--padbg:rgba(18,14,48,.74);--glow:#7c3aed;--g1:rgba(139,92,246,.5);--g2:rgba(34,211,238,.3);color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0b0920;--sf:#141033;--key:#2a2468;--fn:#1b1744;--tx:#f6f4ff;--dim:#a39fd6;--ac:#2ef2c0;--acx:#03201a;--wn:#ffc857;--pu:#ff7ac0;--er:#ff6b81;--ln:#35306e;--k1:#2f2979;--k2:#231e58;--f1:#241f56;--f2:#181440;--padbg:rgba(18,14,48,.74);--glow:#7c3aed;--g1:rgba(139,92,246,.5);--g2:rgba(34,211,238,.3);color-scheme:dark}
+html{background:var(--bg)}
+body{background:radial-gradient(120% 52% at 100% -4%,var(--g1),transparent 62%),radial-gradient(95% 46% at 0% 100%,var(--g2),transparent 62%),var(--bg)}
+.top{background:linear-gradient(135deg,#ffd166 0%,#ff9d6c 48%,#ff6fb5 100%);color:#2b0f33;--tx:#2b0f33;--dim:#6a2d4f;--ac:#4c1d95;--wn:#7c2d12;--er:#a4001f;--fn:rgba(255,255,255,.4);--key:rgba(255,255,255,.4);--ln:rgba(43,15,51,.25);border-radius:22px;box-shadow:0 14px 34px -14px var(--glow),inset 0 1px 0 rgba(255,255,255,.55)}
+.top .bar button{background:rgba(255,255,255,.42);color:#2b0f33;box-shadow:none;border:0}
+.pad{background:var(--padbg);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-top:1px solid var(--ln);border-radius:24px 24px 0 0}
+.c button{font-family:Sora,system-ui,"Noto Sans Bengali",sans-serif;border:1px solid rgba(255,255,255,.07);box-shadow:0 3px 0 rgba(0,0,0,.26),inset 0 1px 0 rgba(255,255,255,.16);transition:transform .08s,filter .12s}
+.c button:active{transform:translateY(2px) scale(.97);box-shadow:0 1px 0 rgba(0,0,0,.26);filter:brightness(1.18)}
+.c button.f{background:linear-gradient(180deg,var(--f1),var(--f2));color:var(--tx)}
+.c button.n{background:linear-gradient(180deg,var(--k1),var(--k2));color:var(--tx);font-weight:600}
+.c button.op{background:linear-gradient(135deg,#8b5cf6,#d946ef);color:#fff;font-weight:600}
+.c button.o{background:linear-gradient(135deg,#ff9a5c,#ff4d8d);color:#fff}
+.c button.eq{background:linear-gradient(135deg,#2ef2c0,#22d3ee);color:#03201a;font-weight:700;box-shadow:0 3px 0 rgba(0,0,0,.26),0 0 22px -2px rgba(46,242,192,.7)}
+.c button.shk{background:linear-gradient(135deg,#ffd166,#ff9f1c);color:#2b1a00}
+.c button.alk{background:linear-gradient(135deg,#ff7ac0,#c026d3);color:#fff}
+.c button.act{box-shadow:0 0 0 3px var(--tx),0 0 18px var(--wn)}
+.ys,.ps{font-weight:600}
+.dp{background:linear-gradient(180deg,var(--f1),var(--f2));box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 3px 0 rgba(0,0,0,.26)}.dp button{color:var(--tx);opacity:.75;box-shadow:none;border:0;background:transparent}
+.dc{background:radial-gradient(circle at 35% 30%,#2ef2c0,#7c3aed)!important;margin:22%!important;box-shadow:0 0 18px rgba(46,242,192,.5)}
+.sf{display:inline-flex;flex-direction:column;align-items:center;gap:2px;line-height:1}.sf i{display:block;width:11px;height:9px;border:2px solid currentColor;border-radius:2px}.sf b{display:block;width:22px;height:3px;border-radius:2px;background:currentColor}.sf em{font-style:normal;font-size:14px;font-weight:600}
+.fq{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 4px;line-height:1.1;font-size:.85em}.fq span:first-child{border-bottom:3px solid currentColor;padding:0 6px 2px}.fq span:last-child{padding:2px 6px 0}.fq .sl{display:none}.fw{margin-right:2px}
+
+
+:root{--bg:#f6f2e6;--sf:#fff;--key:#fff;--fn:#e7efe9;--tx:#0f2f28;--dim:#5d786d;--ac:#0b8a6f;--acx:#fff;--wn:#a9690a;--pu:#1d6fb8;--er:#c62d1f;--ln:#d6dccf;--k1:#fff;--k2:#eef3ec;--f1:#e9f1ec;--f2:#d6e4dc;--padbg:rgba(255,255,255,.8);--glow:#d99a1e;--g1:rgba(245,201,105,.38);--g2:rgba(16,185,129,.22);--lcd1:#0f5a4d;--lcd2:#0a3b33;--lcdtx:#fbf3dc;--lcddim:#a9cfc2;--lcdac:#ffd870;--lcdwn:#ffd870;--lcder:#ff9b8f;--lcdbtn:rgba(255,255,255,.14);--lcdln:rgba(255,255,255,.25)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#06201c;--sf:#0c2f2a;--key:#17463f;--fn:#0e2f2b;--tx:#f6f1e3;--dim:#9dc4b8;--ac:#3ee0b0;--acx:#04211b;--wn:#f5c969;--pu:#8fd3ff;--er:#ff7b6b;--ln:#1f5a50;--k1:#1a4d45;--k2:#113a34;--f1:#123733;--f2:#0a2623;--padbg:rgba(7,32,28,.78);--glow:#f5b942;--g1:rgba(245,201,105,.2);--g2:rgba(16,185,129,.3);--lcd1:#fbf3dc;--lcd2:#e9d9a8;--lcdtx:#10312a;--lcddim:#5f7a6c;--lcdac:#0b7a63;--lcdwn:#8a5a00;--lcder:#b3261e;--lcdbtn:rgba(16,49,42,.12);--lcdln:rgba(16,49,42,.25);color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#06201c;--sf:#0c2f2a;--key:#17463f;--fn:#0e2f2b;--tx:#f6f1e3;--dim:#9dc4b8;--ac:#3ee0b0;--acx:#04211b;--wn:#f5c969;--pu:#8fd3ff;--er:#ff7b6b;--ln:#1f5a50;--k1:#1a4d45;--k2:#113a34;--f1:#123733;--f2:#0a2623;--padbg:rgba(7,32,28,.78);--glow:#f5b942;--g1:rgba(245,201,105,.2);--g2:rgba(16,185,129,.3);--lcd1:#fbf3dc;--lcd2:#e9d9a8;--lcdtx:#10312a;--lcddim:#5f7a6c;--lcdac:#0b7a63;--lcdwn:#8a5a00;--lcder:#b3261e;--lcdbtn:rgba(16,49,42,.12);--lcdln:rgba(16,49,42,.25);color-scheme:dark}
+.top{background:linear-gradient(135deg,var(--lcd1),var(--lcd2));color:var(--lcdtx);--tx:var(--lcdtx);--dim:var(--lcddim);--ac:var(--lcdac);--wn:var(--lcdwn);--er:var(--lcder);--fn:var(--lcdbtn);--key:var(--lcdbtn);--ln:var(--lcdln);box-shadow:0 14px 34px -16px var(--glow),inset 0 1px 0 rgba(255,255,255,.5),inset 0 0 0 1px rgba(245,201,105,.35)}
+.top .bar button{background:var(--lcdbtn);color:var(--lcdtx)}
+.c button.f{background:linear-gradient(180deg,var(--f1),var(--f2));color:var(--tx)}
+.c button.n{background:linear-gradient(180deg,var(--k1),var(--k2));color:var(--tx)}
+.c button.op{background:linear-gradient(135deg,#3ee0b0,#17a688);color:#04211b}
+.c button.o{background:linear-gradient(135deg,#ff8f70,#e5533f);color:#fff}
+.c button.eq{background:linear-gradient(135deg,#ffe08a,#f2a31b);color:#2a1a00;box-shadow:0 3px 0 rgba(0,0,0,.26),0 0 24px -2px rgba(245,185,66,.75)}
+.c button.shk{background:linear-gradient(135deg,#f9d98a,#e3a233);color:#2a1a00}
+.c button.alk{background:linear-gradient(135deg,#8fd3ff,#3b8fe0);color:#04182b}
+.dc{background:radial-gradient(circle at 35% 30%,#ffe29a,#e8a93a)!important;box-shadow:0 0 18px rgba(245,185,66,.55)}
+
+.dev{margin:30px 0 10px;padding-top:14px;border-top:1px solid var(--ln);text-align:center;font-size:12.5px;color:var(--dim)}.dev b{color:var(--wn);font-weight:600;letter-spacing:.2px}
+.sn{white-space:nowrap}.sn sup{font-size:.6em;vertical-align:super;line-height:0}.hc{display:none}
+.sl{display:none}sup.sx{font-size:.55em;line-height:0;vertical-align:super;margin-left:2px}</style>
+<script>document.documentElement.classList.add("boot");setTimeout(function(){document.documentElement.classList.remove("boot")},4500)</script>
+</head><body>
 <div class="top">
  <div class="bar"><span id="ang"><b>DEG</b></span><span id="mem"></span></div>
  <input id="inp" inputmode="none" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Expression" placeholder="0">
@@ -191,7 +270,7 @@ function setSh(on){shift=on;$('#pad').classList.toggle('sh',on);$('#shk').classL
 const ACT={sh:()=>setSh(!shift),mode(){mode.a={DEG:'RAD',RAD:'GRAD',GRAD:'DEG'}[mode.a];$('#ang').innerHTML='<b>'+mode.a+'</b>';$('#modek .m').textContent=mode.a;live()},
  sd(){sd=!sd;if(last)show(last,done)},'m+':()=>memAdd(1),'m-':()=>memAdd(-1),mc(){mem=Q(0n);$('#mem').textContent=''},del,eq,
  ac(){inp.value='';done=false;live()},frac,up:()=>vmv(-1),down:()=>vmv(1),left:()=>mv(-1),right:()=>mv(1),mixed(){mx=!mx;if(last)show(last,done)},
- copy(){try{navigator.clipboard.writeText(M.textContent).then(()=>{B.textContent='কপি হয়েছে';B.className=''},()=>{})}catch(e){}},
+ copy(){try{navigator.clipboard.writeText((M.dataset.txt&&M.querySelector('[data-p]'))?M.dataset.txt:M.textContent).then(()=>{B.textContent='কপি হয়েছে';B.className=''},()=>{})}catch(e){}},
  theme(){const r=document.documentElement;const d=r.dataset.theme?r.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;r.dataset.theme=d?'light':'dark'}};
 const KEYS_OLD=[
 ['2nd','','!sh','','k','shk'],['DEG','','!mode','','k','modek'],['S⇔D','','!sd','','k'],['M+','M−','!m+','!m-','k'],['MR','MC','M','!mc','k'],
@@ -238,17 +317,6 @@ $('#hcls').onclick=()=>$('#hist').classList.remove('show');
 $('#hclr').onclick=()=>{hist=[];try{localStorage.removeItem('xc_h')}catch(e){}renderHist()};
 inp.focus({preventScroll:true});
 </script>
-<style>
-.ov{position:absolute;inset:0;background:var(--bg);display:flex;flex-direction:column;padding:12px 14px;padding-top:calc(12px + env(safe-area-inset-top,0px));z-index:9}
-.ov header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}.ov h2{margin:0;font-size:18px}
-.ov .bt{height:38px;padding:0 14px;font-family:inherit;font-size:14px}
-.bd{overflow-y:auto;flex:1;min-height:0}
-.gr{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.gr button{height:54px;font-size:15px;line-height:1.15}.gr small{display:block;font-size:10px;color:var(--dim);font-family:system-ui,sans-serif}
-.ov textarea,.ov input{width:100%;background:var(--sf);color:var(--tx);border:1px solid var(--ln);border-radius:10px;padding:8px;font:16px "IBM Plex Mono",ui-monospace,monospace;margin:4px 0 8px}
-.ov table{border-collapse:collapse;margin:8px 0}.ov td{border:1px solid var(--ln);padding:6px 10px;font-family:"IBM Plex Mono",ui-monospace,monospace}
-.ov p{margin:4px 0;color:var(--dim);font-size:13px}.rw{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}.rw button{height:38px;padding:0 12px;font-size:14px}.rw button.on{background:var(--ac);color:var(--acx)}
-.lb{display:flex;justify-content:space-between;gap:12px;padding:9px 2px;border-bottom:1px solid var(--ln);font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:14px;cursor:pointer}
-</style>
 <script>
 const SET={pct:true,fmt:'norm',n:6,eng:0};
 const snap=x=>{if(!isFinite(x))return F(x);const r=Math.round(x),m=Math.max(1,Math.abs(x));if(Math.abs(x-r)<1e-9*m)return Q(BigInt(r));for(let q=2;q<=1000;q++){const p=Math.round(x*q);if(Math.abs(x-p/q)<1e-11*m)return Q(BigInt(p),BigInt(q))}return F(x)};
@@ -280,7 +348,7 @@ FN.poissonpdf=(l,k)=>{const L=num(l),K=int(k);if(L<=0||K<0n)throw ER();let f=1;f
 FN.poissoncdf=(l,k)=>{let s=0;for(let i=0n;i<=int(k);i++)s+=num(FN.poissonpdf(l,Q(i)));return F(s)};
 const SIP={'-24':'y','-21':'z','-18':'a','-15':'f','-12':'p','-9':'n','-6':'μ','-3':'m','0':'','3':'k','6':'M','9':'G','12':'T','15':'P','18':'E'};
 function engS(x,si){if(x===0)return '0';const e=Math.floor(Math.log10(Math.abs(x))/3)*3,ms=String(parseFloat((x/Math.pow(10,e)).toPrecision(10)));return si&&SIP[e]!==undefined?ms+(SIP[e]?' '+SIP[e]:''):ms+(e?'×10^'+e:'')}
-window.FMT=(v,r)=>{if(SET.fmt==='norm'&&!SET.eng)return r;const x=num(v);if(!isFinite(x))return r;let t;if(SET.eng)t=engS(x,SET.eng===2);else if(SET.fmt==='fix')t=x.toFixed(SET.n);else t=x.toExponential(SET.n-1).replace(/e\+?(-?)(\d+)/,'×10^$1$2');return{q:false,dec:t,frac:null,sym:null}};
+window.FMT=(v,r)=>{if(SET.fmt==='norm'&&!SET.eng)return r;if(v.sym)return r;const x=num(v);if(!isFinite(x))return r;let t;if(SET.eng)t=engS(x,SET.eng===2);else if(SET.fmt==='fix')t=x.toFixed(SET.n);else t=x.toExponential(SET.n-1).replace(/e\+?(-?)(\d+)/,'×10^$1$2');return{q:false,dec:t,frac:null,sym:null}};
 /* ---- UI helpers ---- */
 const mk=(tag,txt,cls,fn)=>{const e=document.createElement(tag);if(txt!=null)e.textContent=txt;if(cls)e.className=cls;if(fn)e.onclick=fn;return e};
 function ov(title,build){const o=mk('div',null,'ov'),h=mk('header'),bd=mk('div',null,'bd');h.append(mk('h2',title),mk('button','বন্ধ','bt',()=>o.remove()));o.append(h,bd);document.body.append(o);build(bd,()=>o.remove());return o}
@@ -344,18 +412,6 @@ function tmenu(){ov('টুলস',(bd,cl)=>{grid(bd,[['GRAPH',T2('y=f(x) গ্
 [['ƒ','ফাংশন',fmenu],['☰','টুলস',tmenu]].forEach(([l,a,f])=>{const b=mk('button',l,'k',f);b.setAttribute('aria-label',a);b.style.cssText='height:26px;width:34px;padding:0;font-size:15px;border-radius:13px';b.addEventListener('pointerdown',e=>e.preventDefault());$('.bar').insertBefore(b,$('#mem'))});
 document.querySelectorAll('.bar button[aria-label="copy"],.bar button[aria-label="theme"]').forEach(b=>b.remove());
 </script>
-<style>
-:root{--pu:#6d4bd8}@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--pu:#b79cff}}:root[data-theme="dark"]{--pu:#b79cff}
-#pad{display:flex;flex-direction:column;gap:2px;padding:6px 8px 8px;overflow:hidden}
-.g6,.g5{display:grid;gap:0 6px;min-height:0}.g6{flex:5;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(5,1fr)}.g5{flex:4;grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(4,1fr)}
-.c{display:flex;flex-direction:column;min-height:0;min-width:0}.lab{height:14px;display:flex;justify-content:center;gap:5px;font-size:10px;line-height:14px;white-space:nowrap;overflow:hidden}.g5 .lab{font-size:11px}
-.ys{color:var(--wn)}.ps{color:var(--pu)}
-.c button{flex:1;height:auto;min-height:0;min-width:0;border-radius:10px;font:500 14px system-ui,"Noto Sans Bengali",sans-serif;padding:0}
-.c button.n,.c button.op,.c button.eq{font-size:22px;background:var(--key)}.c button.o{background:#e8894a;color:#1a0f05;font-size:20px}
-.c button.f{background:var(--fn)}.c button.shk{background:var(--wn);color:#1a1405;font-weight:700}.c button.alk{background:var(--pu);color:#fff;font-weight:700}.c button.act{outline:3px solid var(--tx)}
-.dp{display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:1fr 1fr 1fr;background:var(--fn);border-radius:26px;padding:3px;min-height:0}.dp button{background:transparent;color:var(--dim);font-size:15px;border-radius:50%;padding:0;height:auto}.dc{grid-column:2;grid-row:2;border-radius:50%;background:var(--bg);margin:18%}
-#st{margin-left:auto;color:var(--wn);font-weight:600;font-size:12px}#mem{margin-left:0;font-size:12px}
-</style>
 <script>
 (()=>{
 const pad=$('#pad');pad.innerHTML='';let SH=false,AL=false,HY=false;
@@ -383,7 +439,7 @@ const dp=mk('div',null,'dp');[['▲','up',2,1],['◀','left',1,2],['▶','right'
 function build6(rows){const g=mk('div',null,'g6');rows.forEach((row,ri)=>{let col=1;row.forEach(sp=>{if(sp==='DP'){dp.style.gridColumn='3 / 5';dp.style.gridRow='1 / 3';g.append(dp);col+=2;return}if(sp==='SK'){col+=2;return}const c=cell(sp);c.style.gridColumn=col;c.style.gridRow=ri+1;g.append(c);col++})});return g}
 const r6=[
  [k('SHIFT','!shift',null,null,'f shk'),k('ALPHA','!alpha',null,null,'f alk'),'DP',k('MODE','!settings',null,null,'f'),k('2nd','!fmenu',null,null,'f')],
- [k('CALC','!calc',['SOLVE','!solve'],['=','='],'f'),k('∫dx','intg(',['d/dx','diff('],[',',','],'f'),'SK',k('x⁻¹','^(-1)',['x!','!'],null,'f'),k('Logₓy','logb(',['Σ','sigma('],['Π','prod('],'f')],
+ [k('CALC','!calc',['SOLVE','!solve'],['=','='],'f'),k('∫dx','!integ',['d/dx','diff('],[',',','],'f'),'SK',k('x⁻¹','^(-1)',['x!','!'],null,'f'),k('Logₓy','logb(',['Σ','sigma('],['Π','prod('],'f')],
  [k('x/y','!frac',['a b/c','!mixed'],['÷R','divr('],'f'),k('√x','√(',['∛','∛('],['mod',' mod '],'f'),k('x²','^(2)',['x³','^(3)'],null,'f'),k('xʸ','^(',['ˣ√y','root('],null,'f'),k('Log','log(',['10ˣ','10^('],null,'f'),k('Ln','ln(',['eˣ','exp('],null,'f')],
  [k('(−)','-',null,['a','A'],'f'),k('° ′ ″','dms(',['FACT','factor('],['b','B'],'f'),k('hyp','!hyp',['|x|','abs('],['c','C'],'f'),k('Sin','sin(',['sin⁻¹','asin('],['d','D'],'f'),k('Cos','cos(',['cos⁻¹','acos('],['e','E'],'f'),k('Tan','tan(',['tan⁻¹','atan('],['f','F'],'f')],
  [k('RCL','!rcl',['STO','!sto'],['CLRv','!clrv'],'f'),k('%','%',['ENG','!eng'],['Cot','cot('],'f'),k('(','(',null,null,'f'),k(')',')',[',',','],['x','X'],'f'),k('S⇔D','!sd',null,['y','Y'],'f'),k('M+','!m+',['M−','!m-'],['m','M'],'f')]];
@@ -396,15 +452,6 @@ const g5=mk('div',null,'g5');r5.forEach(r=>r.forEach(sp=>g5.append(cell(sp))));
 pad.append(build6(r6),g5);st();
 })();
 </script>
-<style>
-body,button{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;touch-action:manipulation}
-#inp,.ov textarea,.ov input{-webkit-user-select:text;user-select:text}
-.top{margin:6px 8px 0;border-radius:18px;padding:6px 12px;background:#d6e5dd;color:var(--tx);--tx:#0f1f19;--dim:#58705f;--ac:#0a7a5d;--wn:#8a5200;--er:#c62828;--fn:#bcd0c5;--key:#bcd0c5;--ln:#a8bdb2}
-.c button.eq{background:var(--ac);color:var(--acx)}
-.sp{display:inline-block;font-size:.62em;vertical-align:.85em;line-height:0;margin-left:1px}
-.rd{display:inline-flex;align-items:flex-end}.rs{font-size:1.05em;line-height:1.2}.rov{border-top:2px solid currentColor;padding:0 3px;margin-top:3px;display:inline-block;line-height:1.3}.ix{font-size:.5em;align-self:flex-start;margin-right:-1px}
-.bx{font-weight:400;opacity:.7}
-</style>
 <script>
 document.addEventListener('contextmenu',e=>{if(!e.target.closest('textarea,input'))e.preventDefault()});
 const HID=['exp(','\u221a(','\u221b(','^(',')/('];
@@ -421,6 +468,12 @@ function pretty4(s,base,c){let o='',i=0;while(i<s.length){const g=base+i,ch=s[i]
   if(c===g)o+=CR;o+='<span class="sp">'+BOX+'</span>';i++;continue}
  if((ch==='\u221a'||ch==='\u221b')&&s[i+1]==='('){const j=cl(s,i+1),b=j>0?j:s.length,e=j>0?j+1:s.length;if(c===g)o+=CR;
   o+='<span class="rd">'+(ch==='\u221b'?'<span class="ix">3</span>':'')+'<span class="rs">\u221a</span><span class="rov" data-e="'+(base+b)+'">'+(c===base+i+1?CR:'')+pretty4(s.slice(i+2,b),base+i+2,c)+(b===i+2?BOX:'')+'</span></span>';i=e;continue}
+ if(/^(defint[lrk]?|indef)\(/.test(s.slice(i))){const mm=/^(defint[lrk]?|indef)\(/.exec(s.slice(i)),df=mm[1]!=='indef',L=mm[0].length,tg={defintl:'LG',defintr:'R',defintk:'GK'}[mm[1]]||'',j=cl(s,i+L-1),e=j<0?s.length:j,inner=s.slice(i+L,e),ob=base+i+L,parts=[];let d=0,st0=0;
+  for(let q=0;q<=inner.length;q++){const z=inner[q];if(q===inner.length||(z===','&&d===0)){parts.push([st0,q]);st0=q+1}else if(z==='(')d++;else if(z===')')d--}
+  const R=k=>{const pr=parts[k]||[inner.length,inner.length],t=inner.slice(pr[0],pr[1]);return '<span class="ib" data-e="'+(ob+pr[1])+'">'+pretty4(t,ob+pr[0],c)+(t?'':BOX)+'</span>'};
+  if(c===g)o+=CR;
+  o+=df?'<span class="ig"><span class="is">\u222b</span>'+(tg?'<sub class="itag">'+tg+'</sub>':'')+'<span class="il"><span>'+R(1)+'</span><span>'+R(0)+'</span></span><span class="ie">'+R(2)+'</span><span class="ix2">dX</span></span>':'<span class="ig"><span class="is">\u222b</span><span class="ie">'+R(0)+'</span><span class="ix2">dX</span></span>';
+  i=j<0?s.length:j+1;continue}
  if(s.startsWith('exp(',i)){const j=cl(s,i+3),b=j>0?j:s.length,e=j>0?j+1:s.length;if(c===g)o+=CR;
   o+='e<span class="sp" data-e="'+(base+b)+'">'+(c>base+i&&c<base+i+4?CR:'')+pretty4(s.slice(i+4,b),base+i+4,c)+(b===i+4?BOX:'')+'</span>';i=e;continue}
  if(c===g)o+=CR;o+='<span data-p="'+g+'">'+esc(ch)+'</span>';i++}
@@ -432,6 +485,7 @@ function mv(d){inp.focus({preventScroll:true});const s=inp.value;let p=d<0?inp.s
 function ins(s){if(done){done=false;inp.value=/^\s*[+\-\u2212\u00d7\u00f7^!%]/.test(s)?'Ans':''}
  inp.focus({preventScroll:true});const a=inp.selectionStart??inp.value.length,b=inp.selectionEnd??a;
  if(s===')'&&a===b&&inp.value[a]===')'){inp.setSelectionRange(a+1,a+1);live();return}
+ const k0=s.indexOf('|');if(k0>=0){inp.setRangeText(s.replace('|',''),a,b,'end');inp.setSelectionRange(a+k0,a+k0);live();return}
  const ac=s.length>1&&s.endsWith('(')&&!/^\s/.test(s);inp.setRangeText(ac?s+')':s,a,b,'end');if(ac){const p=a+s.length;inp.setSelectionRange(p,p)}live()}
 function frac2(fa){if(done){done=false;inp.value=fa?'Ans':'';inp.setSelectionRange(inp.value.length,inp.value.length)}
  inp.focus({preventScroll:true});const a=inp.selectionStart,b=inp.selectionEnd,v=inp.value;
@@ -448,56 +502,16 @@ function del2(){if(done)done=false;inp.focus({preventScroll:true});let a=inp.sel
  if(a<0)a=0;inp.setRangeText('',a,b,'end');live()}
 ACT.frac=()=>frac2(false);ACT.div=()=>frac2(true);ACT.del=del2;
 </script>
-<style>
-:root{--bg:#f6f2ff;--sf:#fff;--key:#fff;--fn:#ece6ff;--tx:#1c1640;--dim:#6b6499;--ac:#00a98a;--acx:#fff;--wn:#b85f00;--pu:#d6246e;--er:#d62839;--ln:#d9d0f5;--k1:#fff;--k2:#f1ecff;--f1:#efe9ff;--f2:#ddd3ff;--padbg:rgba(255,255,255,.72);--glow:#ff6fb5;--g1:rgba(255,111,181,.28);--g2:rgba(34,211,238,.24)}
-@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b0920;--sf:#141033;--key:#2a2468;--fn:#1b1744;--tx:#f6f4ff;--dim:#a39fd6;--ac:#2ef2c0;--acx:#03201a;--wn:#ffc857;--pu:#ff7ac0;--er:#ff6b81;--ln:#35306e;--k1:#2f2979;--k2:#231e58;--f1:#241f56;--f2:#181440;--padbg:rgba(18,14,48,.74);--glow:#7c3aed;--g1:rgba(139,92,246,.5);--g2:rgba(34,211,238,.3);color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#0b0920;--sf:#141033;--key:#2a2468;--fn:#1b1744;--tx:#f6f4ff;--dim:#a39fd6;--ac:#2ef2c0;--acx:#03201a;--wn:#ffc857;--pu:#ff7ac0;--er:#ff6b81;--ln:#35306e;--k1:#2f2979;--k2:#231e58;--f1:#241f56;--f2:#181440;--padbg:rgba(18,14,48,.74);--glow:#7c3aed;--g1:rgba(139,92,246,.5);--g2:rgba(34,211,238,.3);color-scheme:dark}
-html{background:var(--bg)}
-body{background:radial-gradient(120% 52% at 100% -4%,var(--g1),transparent 62%),radial-gradient(95% 46% at 0% 100%,var(--g2),transparent 62%),var(--bg)}
-.top{background:linear-gradient(135deg,#ffd166 0%,#ff9d6c 48%,#ff6fb5 100%);color:#2b0f33;--tx:#2b0f33;--dim:#6a2d4f;--ac:#4c1d95;--wn:#7c2d12;--er:#a4001f;--fn:rgba(255,255,255,.4);--key:rgba(255,255,255,.4);--ln:rgba(43,15,51,.25);border-radius:22px;box-shadow:0 14px 34px -14px var(--glow),inset 0 1px 0 rgba(255,255,255,.55)}
-.top .bar button{background:rgba(255,255,255,.42);color:#2b0f33;box-shadow:none;border:0}
-.pad{background:var(--padbg);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-top:1px solid var(--ln);border-radius:24px 24px 0 0}
-.c button{font-family:Sora,system-ui,"Noto Sans Bengali",sans-serif;border:1px solid rgba(255,255,255,.07);box-shadow:0 3px 0 rgba(0,0,0,.26),inset 0 1px 0 rgba(255,255,255,.16);transition:transform .08s,filter .12s}
-.c button:active{transform:translateY(2px) scale(.97);box-shadow:0 1px 0 rgba(0,0,0,.26);filter:brightness(1.18)}
-.c button.f{background:linear-gradient(180deg,var(--f1),var(--f2));color:var(--tx)}
-.c button.n{background:linear-gradient(180deg,var(--k1),var(--k2));color:var(--tx);font-weight:600}
-.c button.op{background:linear-gradient(135deg,#8b5cf6,#d946ef);color:#fff;font-weight:600}
-.c button.o{background:linear-gradient(135deg,#ff9a5c,#ff4d8d);color:#fff}
-.c button.eq{background:linear-gradient(135deg,#2ef2c0,#22d3ee);color:#03201a;font-weight:700;box-shadow:0 3px 0 rgba(0,0,0,.26),0 0 22px -2px rgba(46,242,192,.7)}
-.c button.shk{background:linear-gradient(135deg,#ffd166,#ff9f1c);color:#2b1a00}
-.c button.alk{background:linear-gradient(135deg,#ff7ac0,#c026d3);color:#fff}
-.c button.act{box-shadow:0 0 0 3px var(--tx),0 0 18px var(--wn)}
-.ys,.ps{font-weight:600}
-.dp{background:linear-gradient(180deg,var(--f1),var(--f2));box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 3px 0 rgba(0,0,0,.26)}.dp button{color:var(--tx);opacity:.75;box-shadow:none;border:0;background:transparent}
-.dc{background:radial-gradient(circle at 35% 30%,#2ef2c0,#7c3aed)!important;margin:22%!important;box-shadow:0 0 18px rgba(46,242,192,.5)}
-.sf{display:inline-flex;flex-direction:column;align-items:center;gap:2px;line-height:1}.sf i{display:block;width:11px;height:9px;border:2px solid currentColor;border-radius:2px}.sf b{display:block;width:22px;height:3px;border-radius:2px;background:currentColor}.sf em{font-style:normal;font-size:14px;font-weight:600}
-.fq{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 4px;line-height:1.1;font-size:.85em}.fq span:first-child{border-bottom:3px solid currentColor;padding:0 6px 2px}.fq span:last-child{padding:2px 6px 0}.fq .sl{display:none}.fw{margin-right:2px}
-</style>
 <script>
-{const l=document.createElement('link');l.rel='stylesheet';l.href='https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&display=swap';document.head.append(l)}
+{const l=document.createElement('link');l.rel='stylesheet';l.href='https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&display=swap';window.__fl=l;document.head.append(l)}
 document.querySelectorAll('.c button').forEach(b=>{const t=b.textContent;if(t==='÷'){b.innerHTML='<span class="sf"><i></i><b></b><i></i></span>';b.setAttribute('aria-label','ভাগ')}else if(t==='x/y'){b.innerHTML='<span class="sf"><em>x</em><b></b><em>y</em></span>';b.setAttribute('aria-label','ফ্র্যাকশন')}});
 function stackFx(el){const m=/^(-?)(?:(\d+) )?(\d+)\/(\d+)$/.exec(el.textContent.trim());if(!m)return;el.innerHTML=m[1]+(m[2]?'<span class="fw">'+m[2]+'</span> ':'')+'<span class="fq"><span>'+m[3]+'</span><span class="sl">/</span><span>'+m[4]+'</span></span>'}
-{const _s=show;show=function(v,f){_s(v,f);stackFx(M);stackFx(S)}}
+function sciFx(el){if(el.children.length)return;const m=/^(.*?)\u00d710\^(-?\d+)(.*)$/.exec(el.textContent);if(!m)return;el.innerHTML='';el.append(m[1]+'\u00d710');const s=document.createElement('sup');s.className='sx';s.append(m[2]);const c=document.createElement('span');c.className='sl';c.textContent='^';s.prepend(c);el.append(s);if(m[3])el.append(m[3])}
+{const _s=show;show=function(v,f){_s(v,f);M.style.fontSize='';stackFx(M);stackFx(S);sciFx(M);sciFx(S);const n=M.textContent.length;if(n>22)M.style.fontSize='20px';else if(n>15)M.style.fontSize='25px'}}
 </script>
-<style>
-:root{--bg:#f6f2e6;--sf:#fff;--key:#fff;--fn:#e7efe9;--tx:#0f2f28;--dim:#5d786d;--ac:#0b8a6f;--acx:#fff;--wn:#a9690a;--pu:#1d6fb8;--er:#c62d1f;--ln:#d6dccf;--k1:#fff;--k2:#eef3ec;--f1:#e9f1ec;--f2:#d6e4dc;--padbg:rgba(255,255,255,.8);--glow:#d99a1e;--g1:rgba(245,201,105,.38);--g2:rgba(16,185,129,.22);--lcd1:#0f5a4d;--lcd2:#0a3b33;--lcdtx:#fbf3dc;--lcddim:#a9cfc2;--lcdac:#ffd870;--lcdwn:#ffd870;--lcder:#ff9b8f;--lcdbtn:rgba(255,255,255,.14);--lcdln:rgba(255,255,255,.25)}
-@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#06201c;--sf:#0c2f2a;--key:#17463f;--fn:#0e2f2b;--tx:#f6f1e3;--dim:#9dc4b8;--ac:#3ee0b0;--acx:#04211b;--wn:#f5c969;--pu:#8fd3ff;--er:#ff7b6b;--ln:#1f5a50;--k1:#1a4d45;--k2:#113a34;--f1:#123733;--f2:#0a2623;--padbg:rgba(7,32,28,.78);--glow:#f5b942;--g1:rgba(245,201,105,.2);--g2:rgba(16,185,129,.3);--lcd1:#fbf3dc;--lcd2:#e9d9a8;--lcdtx:#10312a;--lcddim:#5f7a6c;--lcdac:#0b7a63;--lcdwn:#8a5a00;--lcder:#b3261e;--lcdbtn:rgba(16,49,42,.12);--lcdln:rgba(16,49,42,.25);color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#06201c;--sf:#0c2f2a;--key:#17463f;--fn:#0e2f2b;--tx:#f6f1e3;--dim:#9dc4b8;--ac:#3ee0b0;--acx:#04211b;--wn:#f5c969;--pu:#8fd3ff;--er:#ff7b6b;--ln:#1f5a50;--k1:#1a4d45;--k2:#113a34;--f1:#123733;--f2:#0a2623;--padbg:rgba(7,32,28,.78);--glow:#f5b942;--g1:rgba(245,201,105,.2);--g2:rgba(16,185,129,.3);--lcd1:#fbf3dc;--lcd2:#e9d9a8;--lcdtx:#10312a;--lcddim:#5f7a6c;--lcdac:#0b7a63;--lcdwn:#8a5a00;--lcder:#b3261e;--lcdbtn:rgba(16,49,42,.12);--lcdln:rgba(16,49,42,.25);color-scheme:dark}
-.top{background:linear-gradient(135deg,var(--lcd1),var(--lcd2));color:var(--lcdtx);--tx:var(--lcdtx);--dim:var(--lcddim);--ac:var(--lcdac);--wn:var(--lcdwn);--er:var(--lcder);--fn:var(--lcdbtn);--key:var(--lcdbtn);--ln:var(--lcdln);box-shadow:0 14px 34px -16px var(--glow),inset 0 1px 0 rgba(255,255,255,.5),inset 0 0 0 1px rgba(245,201,105,.35)}
-.top .bar button{background:var(--lcdbtn);color:var(--lcdtx)}
-.c button.f{background:linear-gradient(180deg,var(--f1),var(--f2));color:var(--tx)}
-.c button.n{background:linear-gradient(180deg,var(--k1),var(--k2));color:var(--tx)}
-.c button.op{background:linear-gradient(135deg,#3ee0b0,#17a688);color:#04211b}
-.c button.o{background:linear-gradient(135deg,#ff8f70,#e5533f);color:#fff}
-.c button.eq{background:linear-gradient(135deg,#ffe08a,#f2a31b);color:#2a1a00;box-shadow:0 3px 0 rgba(0,0,0,.26),0 0 24px -2px rgba(245,185,66,.75)}
-.c button.shk{background:linear-gradient(135deg,#f9d98a,#e3a233);color:#2a1a00}
-.c button.alk{background:linear-gradient(135deg,#8fd3ff,#3b8fe0);color:#04182b}
-.dc{background:radial-gradient(circle at 35% 30%,#ffe29a,#e8a93a)!important;box-shadow:0 0 18px rgba(245,185,66,.55)}
-</style>
 <script>
 {const d=document.querySelector('.c button[aria-label="\u09ad\u09be\u0997"]');if(d){d.textContent='\u00f7';d.removeAttribute('aria-label')}}
 </script>
-<style>.dev{margin:30px 0 10px;padding-top:14px;border-top:1px solid var(--ln);text-align:center;font-size:12.5px;color:var(--dim)}.dev b{color:var(--wn);font-weight:600;letter-spacing:.2px}</style>
 <script>
 const I18N=[["নির্ভুল ক্যালক", "Exact Calc"], ["ইতিহাস", "History"], ["মুছুন", "Clear"], ["বন্ধ", "Close"], ["✔ সঠিক (Exact)", "✔ Exact"], ["≈ আনুমানিক (১২ অঙ্ক)", "≈ Approx. (12 digits)"], ["গণনা সম্ভব নয় (যেমন ০ দিয়ে ভাগ)", "Cannot calculate (e.g. division by zero)"], ["লেখায় ভুল আছে, ঠিক করুন", "Input has an error, please fix it"], ["কপি হয়েছে", "Copied"], ["কপি", "Copy"], ["থিম", "Theme"], ["এখনও কোনো হিসাব নেই", "No calculations yet"], ["STO – কোথায় জমা?", "STO – store where?"], ["RCL – চলক বসান", "RCL – insert variable"], ["এই হিসাবে কোনো চলক নেই (A–F, X, Y লিখলে এখানে মান দিতে পারবেন)", "No variables in this expression (use A–F, X, Y to enter values here)"], ["গণনা", "Calculate"], ["সমাধান নেই", "No solution"], ["X-এর কোনো বাস্তব মান পাওয়া যায়নি (−500 থেকে 500)", "No real value of X found (−500 to 500)"], ["অন্য: ", "Others: "], ["ফাংশন", "Functions"], ["f(X), শুরু, শেষ", "f(X), from, to"], ["a=b, চলক X", "a=b, variable X"], ["চলকসহ হিসাব", "Calc with variables"], ["মান জমা", "Store value"], ["চলক বসান", "Insert variable"], ["ভাগফল ও ভাগশেষ", "Quotient & remainder"], ["মৌলিক উৎপাদক", "Prime factors"], ["সমীকরণ", "Equation"], ["e (চার্জ)", "e (charge)"], ["ধ্রুবক", "Constants"], ["একক রূপান্তর", "Unit conversion"], ["আগে সংখ্যা লিখুন (বা আগের ফল Ans), তারপর একক বাছুন", "Type a number first (or use Ans), then pick a unit"], ["প্রতি লাইনে একটি মান (1-var) বা দুটি (x y)", "One value per line (1-var) or two (x y)"], ["ডেটা (স্পেস বা কমা দিয়ে আলাদা)", "Data (separate with space or comma)"], ["হিসাব", "Compute"], ["σx (জনসংখ্যা)", "σx (population)"], ["sx (নমুনা)", "sx (sample)"], ["মধ্যমা", "median"], ["a (ইন্টারসেপ্ট)", "a (intercept)"], ["b (ঢাল)", "b (slope)"], ["ডেটায় ভুল আছে বা হিসাব সম্ভব নয়", "Bad data or cannot compute"], ["A (প্রতি লাইনে এক সারি)", "A (one row per line)"], ["হিসাব সম্ভব নয় বা ডেটায় ভুল", "Cannot compute or bad data"], ["সেটিংস", "Settings"], ["কোণের একক", "Angle unit"], ["ডিফল্ট ফলাফল", "Default result"], ["ভগ্নাংশ", "Fraction"], ["দশমিক", "Decimal"], ["শতকরা: 100+20%", "Percent: 100+20%"], ["ডিসপ্লে", "Display"], ["Fix/Sci অঙ্ক", "Fix/Sci digits"], ["টুলস", "Tools"], ["পরিসংখ্যান", "Statistics"], ["ম্যাট্রিক্স ও ভেক্টর", "Matrix & vector"], ["কোণ, ফরম্যাট, %", "Angle, format, %"], ["ফল কপি", "Copy result"], ["পেস্ট", "Paste"], ["ক্লিপবোর্ড থেকে", "From clipboard"], ["ডার্ক/লাইট", "Dark/Light"], ["সব মুছুন", "Clear everything"], ["চলক মুছেছে", "Variables cleared"], ["সাহায্য", "Help"], ["SHIFT (হলুদ) চেপে কী-এর উপরে হলুদ লেখাটা ব্যবহার করুন", "Press SHIFT (yellow) to use the yellow label above a key"], ["ALPHA (নীল) চেপে নীল লেখা — A–F, X, Y, M চলক ও আরও কিছু", "Press ALPHA (blue) for the blue label: variables A–F, X, Y, M and more"], ["2nd = সব আনুষাঙ্গিক ফাংশনের তালিকা, MODE = সেটিংস", "2nd = list of all extra functions, MODE = settings"], ["x/y চাপলে ফ্র্যাকশন বসে, কার্সরে সরাসরি ট্যাপ করেও লেখা যায়", "x/y inserts a fraction; you can also tap directly to place the cursor"], ["SOLVE: X^2-5X+6=0 লিখে SHIFT+CALC", "SOLVE: type X^2-5X+6=0 then SHIFT+CALC"]].map(([a,b])=>[a.normalize('NFC'),b]).sort((x,y)=>y[0].length-x[0].length);
 const CLOSE_BN="বন্ধ".normalize('NFC');
@@ -513,7 +527,7 @@ function setLang(l){LANG=l;try{localStorage.setItem('xc_lang',l)}catch(e){}docum
  else{walkT(document.body,n=>{const r=REC.get(n);if(r&&n.nodeValue===r.out)n.nodeValue=r.src;REC.delete(n)});document.querySelectorAll('[data-bnph]').forEach(e=>e.setAttribute('placeholder',e.dataset.bnph))}}
 function langSec(bd,cl){const w=mk('div');w.append(mk('p','Language / \u09ad\u09be\u09b7\u09be'));const r=mk('div',null,'rw');[['English','en'],['\u09ac\u09be\u0982\u09b2\u09be','bn']].forEach(([l,c])=>r.append(mk('button',l,LANG===c?'on':'',()=>{setLang(c);cl();settings()})));w.append(r);bd.append(w)}
 function devFoot(bd){const f=mk('div',null,'dev');f.append('Developed by ',mk('b','Tanbin Ahmed Rony'));bd.append(f)}
-const FNS='asinh|acosh|atanh|asin|acos|atan|sinh|cosh|tanh|sin|cos|tan|logb|log|ln|exp|gcd|lcm|abs|diff|intg|sigma|prod|limit|divr|factor|pol|rec|dms|ranint|root|floor|ceil|normcdf|normpdf|binompdf|binomcdf|poissonpdf|poissoncdf|cot|sec|csc|\u221a|\u221b|\\^';
+const FNS='asinh|acosh|atanh|asin|acos|atan|sinh|cosh|tanh|sin|cos|tan|logb|log|ln|exp|gcd|lcm|abs|diff|intg|defintl|defintr|defintk|defint|indef|sigma|prod|limit|divr|factor|pol|rec|dms|ranint|root|floor|ceil|normcdf|normpdf|binompdf|binomcdf|poissonpdf|poissoncdf|cot|sec|csc|\u221a|\u221b|\\^';
 const RE_PRE=new RegExp('('+FNS+')$'),RE_OPEN=new RegExp('('+FNS+')\\($');
 function del3(){done=false;inp.focus({preventScroll:true});let a=inp.selectionStart,b=inp.selectionEnd;const v=inp.value;
  if(a!==b){inp.setRangeText('',a,b,'end');live();return}
@@ -523,6 +537,7 @@ function del3(){done=false;inp.focus({preventScroll:true});let a=inp.selectionSt
  if(bf.endsWith(')/(')){mv(-1);return}
  if(bf.endsWith(')')){let d=0,q=bf.length-1;for(;q>=0;q--){if(bf[q]===')')d++;else if(bf[q]==='('&&--d===0)break}
   if(q>=0){const pre=bf.slice(0,q);if(RE_PRE.test(pre)||pre.endsWith(')/')){mv(-1);return}}}
+ if(/(defint[lrk]?\(|indef\()$/.test(bf)&&/^,*\)/.test(af)){const L0=/defint[lrk]?\($/.test(bf)?bf.length-bf.lastIndexOf('defint'):6,m1=/^,*\)/.exec(af)[0].length;inp.setRangeText('',a-L0,a+m1,'end');live();return}
  const m0=RE_OPEN.exec(bf);
  if(m0){const L=m0[0].length;if(m0[1]==='^'){if(af[0]===')'){inp.setRangeText('',a-L,a+1,'end');live()}else mv(-1);return}
   const j=cl(v,a-1);inp.value=v.slice(0,a-L)+(j>0?v.slice(a,j)+v.slice(j+1):v.slice(a));inp.setSelectionRange(a-L,a-L);live();return}
@@ -605,15 +620,143 @@ function graphOv(){ov('GRAPH',(bd,cl)=>{
  parse();draw()})}
 ACT.graph=graphOv;ACT.base=baseOv;
 </script>
- <script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./sw.js')
-        .then(reg => console.log('Service Worker registered!'))
-        .catch(err => console.log('Service Worker error:', err));
-    });
-  }
- </script>
 
+<script>
+function supExp(el){if(el.children.length)return;const m=/^(.*?)\u00d710\^(-?\d+)(.*)$/.exec(el.textContent);if(!m)return;
+ const s=document.createElement('span'),c=document.createElement('span'),u=document.createElement('sup');s.className='sn';c.className='hc';c.textContent='^';u.textContent=m[2];
+ s.append(m[1]+'\u00d710',c,u);if(m[3])s.append(m[3]);el.textContent='';el.append(s)}
+function fitEl(el,min){el.style.fontSize='';const box=el.parentElement.clientWidth;let fs=parseFloat(getComputedStyle(el).fontSize)||16;while(box>0&&el.getBoundingClientRect().width>box&&fs>min){fs-=1;el.style.fontSize=fs+'px'}}
+{const _s3=show;show=function(v,f){_s3(v,f);supExp(M);supExp(S);fitEl(M,16);fitEl(S,11)}}
+</script>
+
+<script>
+/* ===== numeric integration methods (Legendre-Gauss, Romberg, Gauss-Kronrod) ===== */
+const GK_X=[0.991455371120812639206854697526329,0.949107912342758524526189684047851,0.864864423359769072789712788640926,0.741531185599394439863864773280788,0.586087235467691130294144838258730,0.405845151377397166906606412076961,0.207784955007898467600689403773245,0];
+const GK_W=[0.022935322010529224963732008058970,0.063092092629978553290700663189204,0.104790010322250183839876322541518,0.140653259715525918745189590510238,0.169004726639267902826583426598550,0.190350578064785409913256402421014,0.204432940075298892414161999234649,0.209482141084727828012999174891714];
+const G_W=[0.129484966168869693270611432679082,0.279705391489276667901467771423780,0.381830050505118944950369775488975,0.417959183673469387755102040816327];
+function gk15(f,a,b){const c=(a+b)/2,h=(b-a)/2,fc=f(c);let k=GK_W[7]*fc,g=G_W[3]*fc;for(let i=0;i<7;i++){const dx=h*GK_X[i],f1=f(c-dx),f2=f(c+dx);k+=GK_W[i]*(f1+f2);if(i%2===1)g+=G_W[(i-1)/2]*(f1+f2)}return[k*h,Math.abs((k-g)*h)]}
+function gkAd(f,a,b,tol,d){const[v,e]=gk15(f,a,b);if(d<=0||e<=Math.max(tol,1e-13*Math.abs(v)))return v;const m=(a+b)/2;return gkAd(f,a,m,tol/2,d-1)+gkAd(f,m,b,tol/2,d-1)}
+function romb(f,a,b){const M_=20,R=[];let h=b-a;R[0]=[h/2*(f(a)+f(b))];for(let i=1;i<M_;i++){h/=2;let s=0;const n=1<<(i-1);for(let k=1;k<=n;k++)s+=f(a+(2*k-1)*h);R[i]=[R[i-1][0]/2+h*s];for(let j=1;j<=i;j++)R[i][j]=R[i][j-1]+(R[i][j-1]-R[i-1][j-1])/(Math.pow(4,j)-1);if(i>=4&&Math.abs(R[i][i]-R[i-1][i-1])<1e-12*Math.max(1,Math.abs(R[i][i])))return R[i][i]}return R[M_-1][M_-1]}
+const GLc={};function gl(n){if(GLc[n])return GLc[n];const x=[],w=[];for(let i=0;i<n;i++){let z=Math.cos(Math.PI*(i+.75)/(n+.5)),pp=1;for(let it=0;it<100;it++){let p1=1,p2=0;for(let j=0;j<n;j++){const p3=p2;p2=p1;p1=((2*j+1)*z*p2-j*p3)/(j+1)}pp=n*(z*p1-p2)/(z*z-1);const z1=z;z=z1-p1/pp;if(Math.abs(z-z1)<1e-15)break}x.push(z);w.push(2/((1-z*z)*pp*pp))}return GLc[n]={x,w}}
+function legG(f,a,b){const{x,w}=gl(20),N=8,H=(b-a)/N;let s=0;for(let p=0;p<N;p++){const c=a+p*H+H/2,h=H/2;for(let i=0;i<20;i++)s+=w[i]*f(c+h*x[i])*h}return s}
+const numMeth=m=>(p,c)=>{const a=num(evalExpr(p[0],c)),b=num(evalExpr(p[1],c)),f=x=>evAt(p[2],c,F(x));if(a===b)return Q(0n);return snap(m(f,a,b))};
+LAZY.defintl=numMeth(legG);LAZY.defintr=numMeth(romb);LAZY.defintk=numMeth((f,a,b)=>gkAd(f,a,b,1e-11,18));
+HID.push('defintl(','defintr(','defintk(');
+</script>
+<script>(function(){var d=document.documentElement;function show(){requestAnimationFrame(function(){requestAnimationFrame(function(){d.classList.remove("boot")})})}
+var l=window.__fl,tm=new Promise(function(r){setTimeout(r,1300)});
+var f=(l&&!l.sheet)?new Promise(function(r){l.addEventListener("load",r);l.addEventListener("error",r)}):Promise.resolve();
+Promise.race([f.then(function(){return document.fonts&&document.fonts.load?Promise.race([document.fonts.load("600 16px Sora"),new Promise(function(r){setTimeout(r,700)})]):0}),tm]).catch(function(){}).then(show)})();</script>
+<style>
+.ig{display:inline-flex;align-items:center;gap:2px;vertical-align:middle}.is{font-size:2.2em;line-height:1;font-weight:300}
+.il{display:inline-flex;flex-direction:column;justify-content:space-between;align-self:stretch;font-size:.62em;margin:0 4px 0 -6px}
+.ie{padding:0 3px}.ib{display:inline-block;min-width:14px}
+.ir{display:flex;gap:12px;align-items:center;padding:14px 4px;border-bottom:1px solid var(--ln);cursor:pointer}.ir>b{font-size:20px;color:var(--ac);min-width:20px}.ir p{margin:6px 0 0}.ir .ig{font-size:26px}
+</style>
+<script>
+/* ===== integral: templates + mini CAS ===== */
+HID.push('defint(','indef(');
+const NZ=v=>({t:'n',v}),XN={t:'x'};
+function parseAST(src,ctx){const t=typeof src==='string'?tokenize(src):src;let p=0;const pk=()=>t[p],nx=()=>t[p++],op=v=>pk()&&pk().k==='o'&&pk().v===v;
+ const start=()=>{const k=pk();return k&&(k.k==='n'||k.k==='c'||k.k==='f'||k.k==='v'||(k.k==='o'&&k.v==='('))};
+ function expr(){let a=term();while(op('+')||op('-')){const o=nx().v,b=term();a={t:'add',a,b:o==='+'?b:{t:'neg',a:b}}}return a}
+ function term(){let a=unary();while(op('*')||op('/')){const o=nx().v,b=unary();a=o==='*'?{t:'mul',a,b}:{t:'div',a,b}}return a}
+ function unary(){if(op('-')){nx();return{t:'neg',a:unary()}}if(op('+')){nx();return unary()}return imp()}
+ function imp(){let a=power();while(start())a={t:'mul',a,b:power()};return a}
+ function power(){const a=prim();if(op('^')){nx();return{t:'pow',a,b:ue()}}return a}
+ function ue(){if(op('-')){nx();return{t:'neg',a:ue()}}if(op('+')){nx();return ue()}return power()}
+ function prim(){const k=nx();if(!k)throw SE();
+  if(k.k==='n'){const[i,f='']=k.v.split('.');return{t:'n',v:Q(BigInt((i||'0')+f),10n**BigInt(f.length))}}
+  if(k.k==='c')return{t:'c',s:k.v==='pi'?'\u03c0':'e'};
+  if(k.k==='v'){if(k.v==='X')return XN;const v=k.v==='Ans'?ctx.ans:k.v==='M'?ctx.mem:((ctx.vars&&ctx.vars[k.v])||Q(0n));return isQ(v)?{t:'n',v}:{t:'c',s:String(v.f)}}
+  if(k.k==='f'){if(!op('('))throw SE();nx();const a=[expr()];while(op(',')){nx();a.push(expr())}if(op(')'))nx();return{t:'f',name:k.v,a}}
+  if(k.k==='o'&&k.v==='('){const a=expr();if(op(')'))nx();return a}throw SE()}
+ const r=expr();if(p<t.length)throw SE();return r}
+const kids=n=>n.t==='f'?n.a:[n.a,n.b].filter(Boolean);
+const hasX=n=>n.t==='x'||kids(n).some(hasX);
+const usesTrig=n=>(n.t==='f'&&/^(sin|cos|tan|cot|sec|csc)$/.test(n.name))||kids(n).some(usesTrig);
+function calcS(n){switch(n.t){case'n':return n.v.d===1n?(n.v.n<0n?'('+n.v.n+')':String(n.v.n)):'('+n.v.n+'/'+n.v.d+')';case'x':return'X';case'c':return n.s;
+ case'add':return'('+calcS(n.a)+'+'+calcS(n.b)+')';case'neg':return'(-'+calcS(n.a)+')';case'mul':return'('+calcS(n.a)+'*'+calcS(n.b)+')';
+ case'div':return'('+calcS(n.a)+'/'+calcS(n.b)+')';case'pow':return'('+calcS(n.a)+'^'+calcS(n.b)+')';case'f':return n.name+'('+n.a.map(calcS).join(',')+')'}}
+const atomN=n=>n.t==='x'||n.t==='c'||n.t==='f'||(n.t==='n'&&n.v.d===1n&&n.v.n>=0n);
+function dispS(n){const W=x=>x.t==='add'?'('+dispS(x)+')':dispS(x);switch(n.t){
+ case'n':{const v=n.v;return v.d===1n?String(v.n):(v.n<0n?'-':'')+'('+A(v.n)+')/('+v.d+')'}
+ case'x':return'X';case'c':return n.s;
+ case'add':{const b=dispS(n.b);return dispS(n.a)+(b[0]==='-'?b:'+'+b)}
+ case'neg':return'-'+W(n.a);
+ case'mul':{const a=n.a;if(a.t==='n'&&a.v.d===1n&&a.v.n===1n)return dispS(n.b);if(a.t==='n'&&a.v.d===1n&&a.v.n===-1n)return'-'+W(n.b);return W(a)+W(n.b)}
+ case'div':return'('+dispS(n.a)+')/('+dispS(n.b)+')';
+ case'pow':return(atomN(n.a)?dispS(n.a):'('+dispS(n.a)+')')+'^('+dispS(n.b)+')';
+ case'f':return n.name==='abs'?'|'+dispS(n.a[0])+'|':n.name+'('+n.a.map(dispS).join(',')+')'}}
+const isN=(n,k)=>n.t==='n'&&n.v.d===1n&&n.v.n===BigInt(k);
+const mulN=(a,b)=>{if(isN(a,0)||isN(b,0))return NZ(Q(0n));if(isN(a,1))return b;if(isN(b,1))return a;if(a.t==='n'&&b.t==='n')return NZ(Q(a.v.n*b.v.n,a.v.d*b.v.d));if(b.t==='n')return mulN(b,a);if(a.t==='n'&&b.t==='mul'&&b.a.t==='n')return mulN(NZ(Q(a.v.n*b.a.v.n,a.v.d*b.a.v.d)),b.b);return{t:'mul',a,b}};
+const addN=(a,b)=>isN(a,0)?b:isN(b,0)?a:{t:'add',a,b},negN=a=>mulN(NZ(Q(-1n)),a),fN=(name,u)=>({t:'f',name,a:[u]}),invQ=q=>Q(q.d,q.n);
+const powN=(a,e)=>isN(e,1)?a:isN(e,0)?NZ(Q(1n)):{t:'pow',a,b:e};
+const dvN=(a,b)=>b.t==='n'?mulN(NZ(invQ(b.v)),a):{t:'div',a,b};
+const EV0={ans:Q(0n),mem:Q(0n),vars:{}};
+function polyOf(n){const one=(k,v)=>new Map([[k,v]]);
+ const comb=(a,b,f)=>{const m=new Map(a);for(const[k,v]of b)m.set(k,m.has(k)?f(m.get(k),v):v);return m};
+ switch(n.t){
+  case'n':return one(0,n.v);case'x':return one(1,Q(1n));
+  case'add':{const a=polyOf(n.a),b=a&&polyOf(n.b);return b?comb(a,b,add):null}
+  case'neg':{const a=polyOf(n.a);if(!a)return null;const m=new Map();for(const[k,v]of a)m.set(k,neg(v));return m}
+  case'mul':{const a=polyOf(n.a),b=a&&polyOf(n.b);if(!b)return null;let m=new Map();for(const[i,u]of a)for(const[j,v]of b)m=comb(m,one(i+j,mul(u,v)),add);return m}
+  case'div':{const a=polyOf(n.a),b=polyOf(n.b);if(!a||!b||b.size!==1||!b.has(0)||b.get(0).n===0n)return null;const m=new Map();for(const[k,v]of a)m.set(k,div(v,b.get(0)));return m}
+  case'pow':{const a=polyOf(n.a),e=polyOf(n.b);if(!a||!e||e.size!==1||!e.has(0))return null;const q=e.get(0);if(q.d!==1n||q.n<0n||q.n>30n)return null;let r=one(0,Q(1n));for(let i=0n;i<q.n;i++){let m=new Map();for(const[x,u]of r)for(const[y,v]of a)m=comb(m,one(x+y,mul(u,v)),add);r=m}return r}
+  default:if(!hasX(n)){try{const v=evalExpr(calcS(n),EV0);if(isQ(v))return one(0,v)}catch(e){}}return null}}
+function lin(n){const P=polyOf(n);if(!P)return null;for(const[k,v]of P)if(k>1&&v.n!==0n)return null;const p=P.get(1);if(!p||p.n===0n)return null;return{p,q:P.get(0)||Q(0n)}}
+const qrt=q=>{if(q.n<0n)return null;const a=root(q.n,2n),b=root(q.d,2n);return a!==null&&b!==null?Q(a,b):null};
+function integ(n){
+ if(!hasX(n))return mulN(n,XN);
+ const P=polyOf(n);
+ if(P){let r=NZ(Q(0n));[...P.keys()].sort((a,b)=>b-a).forEach(k=>{const c=P.get(k);if(c.n===0n)return;r=addN(r,mulN(NZ(div(c,Q(BigInt(k+1)))),powN(XN,NZ(Q(BigInt(k+1))))))});return r}
+ switch(n.t){
+  case'add':{const a=integ(n.a),b=a&&integ(n.b);return b?addN(a,b):null}
+  case'neg':{const a=integ(n.a);return a?negN(a):null}
+  case'mul':{if(!hasX(n.a)){const b=integ(n.b);return b?mulN(n.a,b):null}if(!hasX(n.b)){const a=integ(n.a);return a?mulN(n.b,a):null}return null}
+  case'div':{
+   if(!hasX(n.b)){const a=integ(n.a);return a?dvN(a,n.b):null}
+   if(hasX(n.a))return null;
+   const D=polyOf(n.b);if(!D)return null;const ks=[...D.keys()].filter(k=>D.get(k).n!==0n);
+   if(ks.length===1&&ks[0]>=1){const m=ks[0],k=D.get(m),c=dvN(n.a,NZ(k));return m===1?mulN(c,fN('ln',fN('abs',XN))):mulN(c,mulN(NZ(Q(1n,BigInt(1-m))),powN(XN,NZ(Q(BigInt(1-m))))))}
+   const L=lin(n.b);if(L)return mulN(dvN(n.a,NZ(L.p)),fN('ln',fN('abs',n.b)));
+   if(ks.length===2&&ks.includes(0)&&ks.includes(2)){const p=D.get(2),q=D.get(0);
+    if(p.n>0n&&q.n>0n){const r=qrt(div(q,p));if(r)return mulN(dvN(n.a,NZ(mul(p,r))),fN('atan',mulN(NZ(invQ(r)),XN)))}
+    if(p.n>0n&&q.n<0n){const r=qrt(div(neg(q),p));if(r)return mulN(dvN(n.a,NZ(mul(mul(p,r),Q(2n)))),fN('ln',fN('abs',{t:'div',a:addN(XN,NZ(neg(r))),b:addN(XN,NZ(r))})))}}
+   return null}
+  case'pow':{const e=polyOf(n.b),L=lin(n.a);
+   if(!hasX(n.b)&&L&&e&&e.size===1&&e.has(0)){const q=e.get(0);if(q.n===-1n&&q.d===1n)return mulN(NZ(invQ(L.p)),fN('ln',fN('abs',n.a)));const q1=add(q,Q(1n));return mulN(NZ(invQ(mul(L.p,q1))),powN(n.a,NZ(q1)))}
+   const Lb=!hasX(n.a)?lin(n.b):null;
+   if(Lb){if(n.a.t==='c'&&n.a.s==='e')return mulN(NZ(invQ(Lb.p)),n);let b=NaN;try{b=num(evalExpr(calcS(n.a),EV0))}catch(e2){}if(b>0&&b!==1)return{t:'div',a:n,b:mulN(NZ(Lb.p),fN('ln',n.a))}}
+   return null}
+  case'f':{if(n.a.length!==1)return null;const u=n.a[0],L=lin(u);if(!L)return null;const ip=NZ(invQ(L.p));
+   switch(n.name){
+    case'sin':return negN(mulN(ip,fN('cos',u)));case'cos':return mulN(ip,fN('sin',u));
+    case'tan':return negN(mulN(ip,fN('ln',fN('abs',fN('cos',u)))));case'cot':return mulN(ip,fN('ln',fN('abs',fN('sin',u))));
+    case'exp':return mulN(ip,fN('exp',u));case'sinh':return mulN(ip,fN('cosh',u));case'cosh':return mulN(ip,fN('sinh',u));
+    case'ln':return mulN(ip,addN(mulN(u,fN('ln',fN('abs',u))),negN(u)));
+    case'sqrt':return mulN(mulN(NZ(Q(2n,3n)),ip),mulN(u,fN('sqrt',u)));
+    default:return null}}
+  default:return null}}
+function snapV(r){return isQ(r)?r:snap(num(r))}
+LAZY.intg=(p,c)=>{const a=num(evalExpr(p[1],c)),b=num(evalExpr(p[2],c)),w=Math.abs(b-a)||1,f=x=>evAt(p[0],c,F(x)),fs=(x,s)=>{try{return f(x)}catch(e){return f(x+s*1e-9*w)}},fa=fs(a,1),fb=fs(b,-1),fm=f((a+b)/2);return snap(simp(f,a,b,1e-11,fa,fm,fb,(b-a)/6*(fa+4*fm+fb),18))};
+function sampleOK(f,a,b){for(let i=0;i<=60;i++){const x=a+(b-a)*i/60;try{const y=f(x);if(!isFinite(y)||Math.abs(y)>1e10)throw 1}catch(e){if(i>0&&i<60)throw ER()}}}
+LAZY.defint=(p,c)=>{const av=evalExpr(p[0],c),bv=evalExpr(p[1],c),a=num(av),b=num(bv),f=x=>evAt(p[2],c,F(x));
+ if(a!==b)sampleOK(f,a,b);
+ if(a===b)return Q(0n);
+ try{const ast=parseAST(p[2],c);if(!(usesTrig(ast)&&mode.a!=='RAD')){const Fn=integ(ast);if(Fn){const s=calcS(Fn),ev=x=>evalExpr(s,{...c,vars:{...c.vars,X:x}}),r=sub(ev(bv),ev(av));if(isFinite(num(r)))return snapV(r)}}}catch(e){}
+ return LAZY.intg([p[2],p[0],p[1]],c)};
+LAZY.indef=(p,c)=>{const ast=parseAST(p[0],c),Fn=integ(ast);if(!Fn)throw new Error('NoForm');let t=dispS(Fn)+'+C';if(usesTrig(ast)&&mode.a!=='RAD')t+='  (rad)';const v=Q(0n);v.sym=t;v.disp=true;return v};
+{const _e=err;err=function(e){if(e&&e.message==='NoForm'){M.textContent='No closed form';M.className='err';S.textContent=T2('\u098f\u0987 \u09ab\u09be\u0982\u09b6\u09a8\u09c7\u09b0 \u09b8\u09c2\u09a4\u09cd\u09b0 \u09aa\u09be\u0993\u09df\u09be \u09af\u09be\u09df\u09a8\u09bf, \u09a8\u09bf\u09b0\u09cd\u09a6\u09bf\u09b7\u09cd\u099f \u0987\u09a8\u09cd\u099f\u09bf\u0997\u09cd\u09b0\u09cd\u09af\u09be\u09b2 \u09ac\u09cd\u09af\u09ac\u09b9\u09be\u09b0 \u0995\u09b0\u09c1\u09a8','No antiderivative found, try a definite integral');B.textContent='';return}_e(e)}}
+{const _s3=show;show=function(v,f){M.dataset.txt='';_s3(v,f);if(v&&isQ(v)&&v.disp){M.dataset.txt=v.sym;M.innerHTML=pretty4(v.sym,0,-1);M.style.fontSize='24px';S.textContent=''}}}
+function integMenu(){ov('\u222b',(bd,cl)=>{
+ const row=(n,html,desc,tpl)=>{const r=mk('div',null,'ir',()=>{cl();ins(tpl)}),m=mk('div');r.append(mk('b',String(n)));m.innerHTML=html;m.append(mk('p',desc));r.append(m);bd.append(r)};
+ row(1,pretty4('defint(a,b,f)',0,-1),T2('f(x) \u098f\u09b0 \u09a8\u09bf\u09b0\u09cd\u09a6\u09bf\u09b7\u09cd\u099f \u0987\u09a8\u09cd\u099f\u09bf\u0997\u09cd\u09b0\u09cd\u09af\u09be\u09b2, a \u09a5\u09c7\u0995\u09c7 b \u09aa\u09b0\u09cd\u09af\u09a8\u09cd\u09a4','Definite integral of f(x) from a to b'),'defint(|,,)');
+ row(2,pretty4('indef(f)',0,-1),T2('f(x) \u098f\u09b0 \u0985\u09a8\u09bf\u09b0\u09cd\u09a6\u09bf\u09b7\u09cd\u099f \u0987\u09a8\u09cd\u099f\u09bf\u0997\u09cd\u09b0\u09cd\u09af\u09be\u09b2 (\u0985\u09cd\u09af\u09be\u09a8\u09cd\u099f\u09bf\u09a1\u09c7\u09b0\u09bf\u09ad\u09c7\u099f\u09bf\u09ad)','Indefinite integral (antiderivative) of f(x)'),'indef(|)');
+ {const w=mk('div',null,'ir'),m=mk('div');w.style.cssText='cursor:default;color:var(--pu)';w.append(mk('b',''));const wp=mk('p',T2('⚠ দ্রুত সংখ্যাগত যোগজ পদ্ধতি। বিশেষ ক্ষেত্রে ফল সামান্য ভুল হতে পারে।','⚠ Fast numerical integration methods. The result may be inaccurate in some special cases.'));wp.style.color='var(--pu)';m.append(wp);w.append(m);bd.append(w)}
+ [[4,'LegendreGauss Integral','defintl','লেজান্ড্রে–গাউস পদ্ধতিতে যোগজ নির্ণয় করে।','Computes the integral using the Legendre–Gauss method.'],[5,'Romberg Integral','defintr','রম্বার্গ পদ্ধতিতে যোগজ নির্ণয় করে।','Computes the integral using the Romberg method.'],[6,'Gauss-Kronrod Integral','defintk','গাউস–ক্রনরড পদ্ধতিতে যোগজ নির্ণয় করে।','Computes the integral using the Gauss–Kronrod method.']].forEach(([n,t,fn,bn,en])=>row(n,'<span style="font-family:IBM Plex Mono,ui-monospace,monospace;font-size:1.1em">'+t+'</span>',T2(bn,en),fn+'(|,,)'));
+ bd.append(mk('p',T2('\u099a\u09b2\u0995 X \u09ac\u09cd\u09af\u09ac\u09b9\u09be\u09b0 \u0995\u09b0\u09c1\u09a8 (ALPHA + \u0995\u09c0)','Use variable X (ALPHA + the x key)')))})}
+ACT.integ=integMenu;
+</script>
 
 </body></html>
