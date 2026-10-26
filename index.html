@@ -115,7 +115,16 @@ body{background:radial-gradient(120% 52% at 100% -4%,var(--g1),transparent 62%),
 
 .dev{margin:30px 0 10px;padding-top:14px;border-top:1px solid var(--ln);text-align:center;font-size:12.5px;color:var(--dim)}.dev b{color:var(--wn);font-weight:600;letter-spacing:.2px}
 .sn{white-space:nowrap}.sn sup{font-size:.6em;vertical-align:super;line-height:0}.hc{display:none}
-.sl{display:none}sup.sx{font-size:.55em;line-height:0;vertical-align:super;margin-left:2px}</style>
+.sl{display:none}sup.sx{font-size:.55em;line-height:0;vertical-align:super;margin-left:2px}.bar{gap:3px}
+.abcp{position:absolute;left:0;right:0;bottom:0;z-index:8;padding:10px 8px calc(10px + env(safe-area-inset-bottom,0px));background:var(--bg);border-top:1px solid var(--ln);border-radius:20px 20px 0 0;box-shadow:0 -12px 30px -12px rgba(0,0,0,.55);display:flex;flex-direction:column;gap:6px}
+.abr{display:flex;gap:5px;justify-content:center}
+.abr button{flex:0 0 calc((100% - 45px)/10);min-width:0;height:41px;border-radius:10px;border:1px solid rgba(255,255,255,.07);box-shadow:0 2px 0 rgba(0,0,0,.26),inset 0 1px 0 rgba(255,255,255,.14);background:linear-gradient(180deg,var(--f1),var(--f2));color:var(--tx);font:600 17px Sora,system-ui,sans-serif;padding:0}
+.abr button.lt{background:linear-gradient(180deg,var(--k1),var(--k2));font-size:19px}
+.abr button.dk{flex:0 0 calc((100% - 45px)/10*1.6 + 3px);background:linear-gradient(135deg,#ff8f70,#e5533f);color:#fff}
+.abr button.eqk{background:linear-gradient(135deg,#ffe08a,#f2a31b);color:#2a1a00}
+.abr button:active{transform:translateY(2px);filter:brightness(1.2)}
+.abg{height:26px;margin:-8px 0 -4px;display:flex;justify-content:center;align-items:center;touch-action:none;cursor:pointer}.abg::before{content:"";width:48px;height:5px;border-radius:3px;background:var(--dim);opacity:.7}
+</style>
 <script>document.documentElement.classList.add("boot");setTimeout(function(){document.documentElement.classList.remove("boot")},4500)</script>
 </head><body>
 <div class="top">
@@ -133,15 +142,20 @@ const Q=(n,d=1n)=>{if(d===0n)throw ER();if(d<0n){n=-n;d=-d}const g=G(n,d)||1n;re
 const isQ=v=>v.d!==undefined;
 const F=x=>{if(typeof x!=='number'||!isFinite(x))throw ER();return{f:x}};
 const num=v=>isQ(v)?Number(v.n)/Number(v.d):v.f;
-const add=(a,b)=>isQ(a)&&isQ(b)?Q(a.n*b.d+b.n*a.d,a.d*b.d):F(num(a)+num(b));
-const neg=a=>isQ(a)?Q(-a.n,a.d):F(-a.f);
+const add0=(a,b)=>isQ(a)&&isQ(b)?Q(a.n*b.d+b.n*a.d,a.d*b.d):F(num(a)+num(b));
+const add=(a,b)=>(isAlg(a)||isAlg(b))?algAdd(a,b,1):add0(a,b);
+const neg0=a=>isQ(a)?Q(-a.n,a.d):F(-a.f);
+const neg=a=>isAlg(a)?algNeg(a):neg0(a);
 const sub=(a,b)=>add(a,neg(b));
-const mul=(a,b)=>isQ(a)&&isQ(b)?Q(a.n*b.n,a.d*b.d):(!isQ(a)&&!isQ(b)&&a.rad&&b.rad&&a.rad.n===b.rad.n&&a.rad.d===b.rad.d)?a.rad:F(num(a)*num(b));
-const div=(a,b)=>{if(isQ(b)?b.n===0n:b.f===0)throw ER();return isQ(a)&&isQ(b)?Q(a.n*b.d,a.d*b.n):F(num(a)/num(b))};
+const mul=(a,b)=>(isAlg(a)||isAlg(b))?algMul(a,b):mul0(a,b);
+const mul0=(a,b)=>isQ(a)&&isQ(b)?Q(a.n*b.n,a.d*b.d):(!isQ(a)&&!isQ(b)&&a.rad&&b.rad&&a.rad.n===b.rad.n&&a.rad.d===b.rad.d)?a.rad:F(num(a)*num(b));
+const div=(a,b)=>(isAlg(a)||isAlg(b))?algDiv(a,b):div0(a,b);
+const div0=(a,b)=>{if(isQ(b)?b.n===0n:b.f===0)throw ER();return isQ(a)&&isQ(b)?Q(a.n*b.d,a.d*b.n):F(num(a)/num(b))};
 const int=v=>{if(isQ(v)&&v.d===1n)return v.n;throw ER()};
 const mode={a:'DEG'};
 function root(x,k){if(x===0n)return 0n;if(k>200n)return null;let lo=0n,hi=1n<<BigInt(Math.ceil(x.toString(2).length/Number(k))+1);while(lo<hi){const m=(lo+hi+1n)>>1n;if(m**k<=x)lo=m;else hi=m-1n}return lo**k===x?lo:null}
 function pow(a,b){
+ if(isAlg(a)||isAlg(b))return algPow(a,b);
  if(!isQ(a)&&a.rad&&isQ(b)&&b.d===1n&&b.n%2n===0n&&A(b.n)<=5000n)return pow(a.rad,Q(b.n/2n));
  if(isQ(a)&&isQ(b)){
   if(b.d===1n&&A(b.n)<=5000n){const e=b.n;if(e>=0n)return Q(a.n**e,a.d**e);if(a.n===0n)throw ER();return Q(a.d**-e,a.n**-e)}
@@ -183,14 +197,14 @@ function tokenize(s){const t=[];let i=0,m;
   if(m=/^(\d+\.?\d*|\.\d+)/.exec(r)){t.push({k:'n',v:m[0]});i+=m[0].length;continue}
   if(m=/^[A-Za-z]+/.exec(r)){const w=m[0];i+=w.length;
    if(w==='e')t.push({k:'c',v:'e'});else if(w==='ran')t.push({k:'c',v:'ran'});else if(w==='Ans'||w==='PreAns')t.push({k:'v',v:w});else if(/^[A-FMXY]+$/.test(w)){for(const ch of w)t.push({k:'v',v:ch})}
-   else if(INF[w])t.push({k:'i',v:w});else if(FN[w]||LAZY[w])t.push({k:'f',v:w});else throw SE();continue}
+   else if(INF[w])t.push({k:'i',v:w});else if(FN[w]||LAZY[w])t.push({k:'f',v:w});else if(/^[a-z]+$/.test(w)){for(const ch of w)t.push({k:'s',v:ch})}else throw SE();continue}
   i++;
   if(c==='π')t.push({k:'c',v:'pi'});else if(c==='√')t.push({k:'f',v:'sqrt'});else if(c==='∛')t.push({k:'f',v:'cbrt'});
   else if('+-−×÷*/^!%(),'.includes(c))t.push({k:'o',v:c==='−'?'-':c==='×'?'*':c==='÷'?'/':c});else throw SE()}
  return t}
 function evalExpr(src,ctx){const t=typeof src==='string'?tokenize(src):src;let p=0;const pk=()=>t[p],nx=()=>t[p++];
  const op=v=>pk()&&pk().k==='o'&&pk().v===v;
- const start=()=>{const k=pk();return k&&(k.k==='n'||k.k==='c'||k.k==='f'||k.k==='v'||(k.k==='o'&&k.v==='('))};
+ const start=()=>{const k=pk();return k&&(k.k==='n'||k.k==='c'||k.k==='f'||k.k==='v'||k.k==='s'||(k.k==='o'&&k.v==='('))};
  function expr(){let a=term();while(op('+')||op('-')){const o=nx().v,b=term(),bb=(SET.pct&&b.pct)?mul(a,b):b;a=o==='+'?add(a,bb):sub(a,bb)}return a}
  function term(){let a=unary();for(;;){if(op('*')||op('/')){const o=nx().v,b=unary();a=o==='*'?mul(a,b):div(a,b)}else if(pk()&&pk().k==='i'){const o=nx().v;a=INF[o](a,unary())}else break}return a}
  function unary(){if(op('-')){nx();return neg(unary())}if(op('+')){nx();return unary()}return imp()}
@@ -201,8 +215,9 @@ function evalExpr(src,ctx){const t=typeof src==='string'?tokenize(src):src;let p
  function prim(){const k=nx();if(!k)throw SE();
   if(k.k==='n'){const[i,f='']=k.v.split('.');return Q(BigInt((i||'0')+f),10n**BigInt(f.length))}
   if(k.k==='c'){if(k.v==='ran')return Q(BigInt(Math.floor(Math.random()*1000)),1000n);return F(k.v==='pi'?Math.PI:Math.E)}
-  if(k.k==='v')return k.v==='Ans'?ctx.ans:k.v==='M'?ctx.mem:((ctx.vars&&ctx.vars[k.v])||Q(0n));
-  if(k.k==='f'){if(!op('('))throw SE();nx();if(LAZY[k.v]){let d=0;const parts=[[]];while(p<t.length){const x=t[p];if(x.k==='o'){if(x.v==='(')d++;else if(x.v===')'){if(d===0)break;d--}else if(x.v===','&&d===0){parts.push([]);p++;continue}}parts[parts.length-1].push(x);p++}if(op(')'))nx();return LAZY[k.v](parts,ctx)}const a=[expr()];while(op(',m'.slice(0,1))){nx();a.push(expr())}if(op(')'))nx();return FN[k.v](...a)}
+  if(k.k==='s')return symPoly(k.v);
+  if(k.k==='v')return k.v==='Ans'?ctx.ans:k.v==='M'?ctx.mem:((ctx.vars&&ctx.vars[k.v])||(/^[A-FXY]$/.test(k.v)?symPoly(k.v.toLowerCase()):Q(0n)));
+  if(k.k==='f'){if(!op('('))throw SE();nx();if(LAZY[k.v]){let d=0;const parts=[[]];while(p<t.length){const x=t[p];if(x.k==='o'){if(x.v==='(')d++;else if(x.v===')'){if(d===0)break;d--}else if(x.v===','&&d===0){parts.push([]);p++;continue}}parts[parts.length-1].push(x);p++}if(op(')'))nx();return LAZY[k.v](parts,ctx)}const a=[expr()];while(op(',m'.slice(0,1))){nx();a.push(expr())}if(op(')'))nx();if(a.some(isAlg))throw new Error('NoAlg');return FN[k.v](...a)}
   if(k.k==='o'&&k.v==='('){const a=expr();if(op(')'))nx();return a}
   throw SE()}
  const r=expr();if(p<t.length)throw SE();return r}
@@ -215,7 +230,7 @@ function fmtQ(v){if(v.d===1n){const s=v.n.toString();return[s.replace('-','').le
  const ng=v.n<0n,n=A(v.n),ip=n/v.d;if(ip.toString().length>15)return[sciBig((ng?'-':'')+ip),false];
  const sc=(n*10n**12n*2n+v.d)/(2n*v.d),ex=(n*10n**12n)%v.d===0n;if(sc===0n)return[fmtF(Number(v.n)/Number(v.d)),false];
  const s=sc.toString().padStart(13,'0'),f=s.slice(-12).replace(/0+$/,'');return[(ng?'-':'')+s.slice(0,-12)+(f?'.'+f:''),ex]}
-function res(v){if(isQ(v)&&v.sym)return{q:true,dec:v.sym,frac:null};if(isQ(v)){const[dec,ex]=fmtQ(v);const frac=v.d===1n?null:(mx&&A(v.n)>v.d?(v.n<0n?'-':'')+(A(v.n)/v.d)+' '+(A(v.n)%v.d)+'/'+v.d:v.n+'/'+v.d);return{q:true,dec:(ex?'':'≈ ')+dec,frac}}
+function res(v){if(isAlg(v))return{q:true,dec:algText(v),frac:null};if(isQ(v)&&v.sym)return{q:true,dec:v.sym,frac:null};if(isQ(v)){const[dec,ex]=fmtQ(v);const frac=v.d===1n?null:(mx&&A(v.n)>v.d?(v.n<0n?'-':'')+(A(v.n)/v.d)+' '+(A(v.n)%v.d)+'/'+v.d:v.n+'/'+v.d);return{q:true,dec:(ex?'':'≈ ')+dec,frac}}
  return{q:false,dec:'≈ '+fmtF(v.f),sym:v.sym}}
 /* ---- UI ---- */
 const $=s=>document.querySelector(s),inp=$('#inp'),M=$('#main'),S=$('#sub'),B=$('#badge');
@@ -457,7 +472,7 @@ document.addEventListener('contextmenu',e=>{if(!e.target.closest('textarea,input
 const HID=['exp(','\u221a(','\u221b(','^(',')/('];
 const FNR=/(?:asinh|acosh|atanh|asin|acos|atan|sinh|cosh|tanh|sin|cos|tan|log|ln|exp|abs|floor|ceil|factor|dms|cot|sec|csc|\u221a|\u221b)$/;
 function bs(s){if(s.endsWith(')')){let d=0,j=s.length-1;for(;j>=0;j--){if(s[j]===')')d++;else if(s[j]==='('&&--d===0)break}if(j<0)return -1;const f=FNR.exec(s.slice(0,j));let st=f?j-f[0].length:j;if(s.slice(0,st).endsWith(')/')){const p=bs(s.slice(0,st-1));if(p>=0)st=p}return st}
- const m=/(\d+\.?\d*|\.\d+|PreAns|Ans|[A-FXYM]|\u03c0|e)$/.exec(s);return m?s.length-m[0].length:-1}
+ const m=/((?:\d+\.?\d*|\.\d+)?(?:[a-z]+|[A-FXYM]+)|\d+\.?\d*|\.\d+|PreAns|Ans|\u03c0)$/.exec(s);return m?s.length-m[0].length:-1}
 function opStart(s){let st=bs(s);if(st<0)return -1;while(s.slice(0,st).endsWith('^')){const p=bs(s.slice(0,st-1));if(p<0)break;st=p}return st}
 function exo(s,i){const a=i+1;if(s[a]==='('){const j=cl(s,a);return j>0?{a:a+1,b:j,e:j+1}:{a:a+1,b:s.length,e:s.length}}const m=/^-?(\d+\.?\d*|\.\d+|[A-Za-z]+|\u03c0)/.exec(s.slice(a));return m?{a,b:a+m[0].length,e:a+m[0].length}:null}
 function pretty4(s,base,c){let o='',i=0;while(i<s.length){const g=base+i,ch=s[i];
@@ -553,7 +568,7 @@ const FEEL={vib:true,snd:false};try{Object.assign(FEEL,JSON.parse(localStorage.g
 let AUD=null;
 function keyFeel(){if(FEEL.vib&&navigator.vibrate){try{navigator.vibrate(10)}catch(e){}}
  if(FEEL.snd){try{AUD=AUD||new(window.AudioContext||window.webkitAudioContext)();if(AUD.state==='suspended')AUD.resume();const o=AUD.createOscillator(),g=AUD.createGain();o.type='triangle';o.frequency.value=880;g.gain.setValueAtTime(.09,AUD.currentTime);g.gain.exponentialRampToValueAtTime(.0001,AUD.currentTime+.06);o.connect(g);g.connect(AUD.destination);o.start();o.stop(AUD.currentTime+.07)}catch(e){}}}
-document.addEventListener('click',e=>{if(e.target.closest&&e.target.closest('.c button,.dp button,.bar button'))keyFeel()},true);
+document.addEventListener('click',e=>{if(e.target.closest&&e.target.closest('.c button,.dp button,.bar button,.abcp button'))keyFeel()},true);
 function feelSec(bd,cl){const w=mk('div');
  [[T2('\u09ad\u09be\u0987\u09ac\u09cd\u09b0\u09c7\u09b6\u09a8','Vibration'),'vib'],[T2('\u0995\u09c0 \u09b8\u09be\u0989\u09a8\u09cd\u09a1','Key sound'),'snd']].forEach(([lab,k])=>{w.append(mk('p',lab));const r=mk('div',null,'rw');
   [[T2('\u099a\u09be\u09b2\u09c1','On'),true],[CLOSE_BN,false]].forEach(([l,v])=>r.append(mk('button',l,FEEL[k]===v?'on':'',()=>{FEEL[k]=v;try{localStorage.setItem('xc_feel',JSON.stringify(FEEL))}catch(e){}cl();settings();if(v)keyFeel()})));w.append(r)});bd.append(w)}
@@ -642,6 +657,148 @@ function legG(f,a,b){const{x,w}=gl(20),N=8,H=(b-a)/N;let s=0;for(let p=0;p<N;p++
 const numMeth=m=>(p,c)=>{const a=num(evalExpr(p[0],c)),b=num(evalExpr(p[1],c)),f=x=>evAt(p[2],c,F(x));if(a===b)return Q(0n);return snap(m(f,a,b))};
 LAZY.defintl=numMeth(legG);LAZY.defintr=numMeth(romb);LAZY.defintk=numMeth((f,a,b)=>gkAd(f,a,b,1e-11,18));
 HID.push('defintl(','defintr(','defintk(');
+</script>
+<script>
+/* ===== camera scan (works inside the Android app) ===== */
+const SCAN_SVG='<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l1.6-2.4h6.8L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.6"/></svg>';
+function scanClean(raw){
+ let s=raw.replace(/[\u2212\u2013\u2014\u2012]/g,'-').replace(/[\u00d7\u2715\u2716\u22c5\u00b7\u2217]/g,'\u00d7').replace(/[\u00f7\u2236]/g,'\u00f7').replace(/\u00b2/g,'^(2)').replace(/\u00b3/g,'^(3)');
+ s=s.replace(/(?<=\d)\s*:\s*(?=\d)/g,'\u00f7').replace(/(?<=[\d)])\s*[xX]\s*(?=[\d(.])/g,'\u00d7');
+ s=s.replace(/(?<=\d)[Oo]|[Oo](?=\.?\d)/g,'0').replace(/(?<=\d)[lI|]|[lI|](?=\d)/g,'1');
+ s=s.replace(/[=?]+\s*$/,'');
+ const tk=s.toLowerCase().match(/sin|cos|tan|log|ln|sqrt|abs|exp|\u03c0|\u221a|\d+\.?\d*|\.\d+|[+\-\u00d7\u00f7*\/^()%!]/g)||[];
+ return tk.join('')}
+function scanCands(raw){const c=raw.split(/\n+/).map(scanClean).filter(x=>/\d/.test(x));const sc=x=>(x.match(/[+\-\u00d7\u00f7*\/^%!]/g)||[]).length*10+x.length;const r=[...new Set(c)].sort((a,b)=>sc(b)-sc(a));if(!r.length||!/[+\-\u00d7\u00f7*\/^%!]/.test(r[0])){const j=scanClean(raw.replace(/\n+/g,''));if(/\d/.test(j)&&/[+\-\u00d7\u00f7*\/^%!]/.test(j))r.unshift(j)}return r}
+function scanOv(raw,errm){ov(T2('\u09b8\u09cd\u0995\u09cd\u09af\u09be\u09a8','Scan'),(bd,cl)=>{
+ const cands=scanCands(raw),box=mk('input'),out=mk('div'),chips=mk('div',null,'rw');box.value=cands[0]||'';box.setAttribute('autocapitalize','off');
+ if(errm)bd.append(mk('p',errm));
+ bd.append(mk('p',T2('\u099b\u09ac\u09bf \u09a5\u09c7\u0995\u09c7 \u09aa\u09be\u0993\u09af\u09bc\u09be \u09b2\u09c7\u0996\u09be (\u09ad\u09c1\u09b2 \u09a5\u09be\u0995\u09b2\u09c7 \u09a0\u09bf\u0995 \u0995\u09b0\u09c1\u09a8):','Text found in the photo (fix it if needed):')),box);
+ const upd=()=>{out.textContent='';const s=box.value.trim();if(!s)return;try{const v=evalExpr(s,ctx()),r=res(v),row=mk('div',null,'lb');row.append(mk('b','='),mk('span',(r.frac?r.frac+' = ':'')+(r.sym||r.dec)));out.append(row)}catch(e){out.append(mk('p',T2('\u098f\u0996\u09a8\u09cb \u09b9\u09bf\u09b8\u09be\u09ac \u0995\u09b0\u09be \u09af\u09be\u099a\u09cd\u099b\u09c7 \u09a8\u09be, \u09b2\u09c7\u0996\u09be\u099f\u09be \u09a0\u09bf\u0995 \u0995\u09b0\u09c1\u09a8','Cannot calculate yet, please fix the text')))}};
+ box.addEventListener('input',upd);
+ if(cands.length>1){bd.append(mk('p',T2('\u0985\u09a8\u09cd\u09af \u09b2\u09be\u0987\u09a8\u0997\u09c1\u09b2\u09cb:','Other lines:')));cands.slice(1,6).forEach(c=>chips.append(mk('button',c,null,()=>{box.value=c;upd()})));bd.append(chips)}
+ bd.append(out);
+ const go=(solve)=>{cl();inp.value=box.value.trim();done=false;inp.setSelectionRange(inp.value.length,inp.value.length);live();if(solve)eq()};
+ const rw=mk('div',null,'rw');rw.append(mk('button',T2('\u0989\u09a4\u09cd\u09a4\u09b0 \u09a6\u09be\u0993','Solve'),'on',()=>go(true)),mk('button',T2('\u0995\u09cd\u09af\u09be\u09b2\u0995\u09c1\u09b2\u09c7\u099f\u09b0\u09c7 \u09b0\u09be\u0996\u09cb','Put in calculator'),null,()=>go(false)),mk('button',T2('\u0986\u09ac\u09be\u09b0 \u09b8\u09cd\u0995\u09cd\u09af\u09be\u09a8','Scan again'),null,()=>{cl();if(window.Android&&Android.scan)Android.scan()}));bd.append(rw);
+ if(raw)bd.append(mk('p','OCR: '+raw.replace(/\n/g,' \u23ce ')));
+ upd()})}
+window.onScan=function(t){scanOv(String(t||''))};
+window.onScanError=function(m){scanOv('',T2('\u09b8\u09cd\u0995\u09cd\u09af\u09be\u09a8 \u0995\u09b0\u09be \u09af\u09be\u09af\u09bc\u09a8\u09bf: ','Scan failed: ')+m)};
+if(window.Android&&Android.scan){const b=mk('button',null,'k',()=>Android.scan());b.innerHTML=SCAN_SVG;b.setAttribute('aria-label','Scan');b.style.cssText='height:26px;min-width:34px;padding:0 8px;border-radius:13px;display:inline-flex;align-items:center;justify-content:center';b.addEventListener('pointerdown',e=>e.preventDefault());$('.bar').insertBefore(b,$('#st'))}
+</script>
+<script>
+/* ===== algebra: simplify expressions with letters (2ab+3ab = 5ab) ===== */
+const symPoly=l=>({p:new Map([[l+':1',Q(1n)]])});
+const pZero=c=>isQ(c)?c.n===0n:c.f===0,pNeg=c=>isQ(c)?c.n<0n:c.f<0,pAbs=c=>isQ(c)?Q(c.n<0n?-c.n:c.n,c.d):F(Math.abs(c.f)),pOne=c=>isQ(c)&&c.n===1n&&c.d===1n;
+const pM=k=>{const o={};if(k)for(const s of k.split(',')){const[l,e]=s.split(':');o[l]=+e}return o};
+const pK=o=>Object.keys(o).sort().map(l=>l+':'+o[l]).join(',');
+const toP=v=>v&&v.p?v.p:(isQ(v)&&v.n===0n?new Map():new Map([['',v]]));
+function mkP(m){for(const[k,c]of[...m])if(pZero(c))m.delete(k);if(!m.size)return Q(0n);if(m.size===1&&m.has(''))return m.get('');return{p:m}}
+function addP(a,b,sg){const R=new Map(toP(a));for(const[k,c]of toP(b)){const w=sg>0?c:neg0(c);R.set(k,R.has(k)?add0(R.get(k),w):w)}return mkP(R)}
+function mulP(a,b){const R=new Map();for(const[k1,c1]of toP(a))for(const[k2,c2]of toP(b)){const o=pM(k1),q=pM(k2);for(const l in q)o[l]=(o[l]||0)+q[l];const k=pK(o),c=mul0(c1,c2);R.set(k,R.has(k)?add0(R.get(k),c):c)}return mkP(R)}
+const negP=a=>mkP(new Map([...a.p].map(([k,c])=>[k,neg0(c)])));
+function divP(a,b){if(b&&b.p)throw new Error('NoAlg');if(pZero(b))throw ER();return mulP(a,div0(Q(1n),b))}
+function powP(a,b){if((b&&b.p)||!(isQ(b)&&b.d===1n&&b.n>=0n&&b.n<=30n))throw new Error('NoAlg');let r=Q(1n);for(let i=0n;i<b.n;i++)r=mulP(r,a);return r}
+function polyText(v){const ts=[...v.p].map(([k,c])=>{const m=pM(k);return{k,c,m,d:Object.values(m).reduce((x,y)=>x+y,0)}});ts.sort((x,y)=>{if(y.d!==x.d)return y.d-x.d;const ls=[...new Set([...Object.keys(x.m),...Object.keys(y.m)])].sort();for(const l of ls){const p=x.m[l]||0,q=y.m[l]||0;if(p!==q)return q-p}return 0});let s='';
+ ts.forEach((t,i)=>{const ab=pAbs(t.c),vars=Object.keys(t.m).sort().map(l=>l+(t.m[l]>1?'^('+t.m[l]+')':'')).join('');
+  const cs=(pOne(ab)&&vars)?'':(isQ(ab)?(ab.d===1n?ab.n.toString():'('+ab.n+')/('+ab.d+')'):fmtF(ab.f));
+  s+=(i===0?(pNeg(t.c)?'-':''):(pNeg(t.c)?' - ':' + '))+cs+vars});return s}
+{const _e=err;err=function(e){if(e&&e.message==='NoAlg'){M.textContent=T2('\u098f\u0987 \u09ac\u09c0\u099c\u0997\u09be\u09a3\u09bf\u09a4\u09bf\u0995 \u09b0\u09be\u09b6\u09bf \u09b8\u09b0\u09b2 \u0995\u09b0\u09be \u09af\u09be\u09df\u09a8\u09bf','Cannot simplify this expression');M.className='err';S.textContent=T2('\u09b8\u09ae\u09b0\u09cd\u09a5\u09bf\u09a4: \u09af\u09cb\u0997, \u09ac\u09bf\u09df\u09cb\u0997, \u0997\u09c1\u09a3, \u0998\u09be\u09a4 (\u09aa\u09c2\u09b0\u09cd\u09a3\u09b8\u0982\u0996\u09cd\u09af\u09be), \u09b8\u0982\u0996\u09cd\u09af\u09be \u09a6\u09bf\u09df\u09c7 \u09ad\u09be\u0997','Supported: + \u2212 \u00d7, whole-number powers, division by numbers');B.textContent='';return}_e(e)}}
+{const _s=show;show=function(v,f){_s(v,f);if(v&&v.p){const t=polyText(v);M.dataset.txt=t;M.innerHTML=pretty4(t,0,-1);M.style.fontSize=t.length>26?'20px':t.length>14?'26px':'';S.textContent='';B.textContent=T2('\u09ac\u09c0\u099c\u0997\u09a3\u09bf\u09a4 \u09ab\u09b2 (\u09b8\u09b0\u09b2\u09c0\u0995\u09c3\u09a4)','Algebraic result (simplified)');B.className=''}}}
+</script>
+<script>
+/* ===== crop the photo before scanning (Android app) ===== */
+window.onPhoto=function(url){cropOv(url)};
+function cropOv(url){ov(T2('\u099b\u09ac\u09bf \u0995\u09be\u099f\u09c1\u09a8','Crop photo'),(bd,cl)=>{
+ const img=new Image(),wrap=mk('div'),cv=mk('canvas'),rw=mk('div',null,'rw'),g=cv.getContext('2d');let W=0,H=0,R={x:0,y:0,w:10,h:10},drag=null;
+ bd.append(mk('p',T2('\u09af\u09c7 \u0985\u0982\u09b6\u09c7 \u09b9\u09bf\u09b8\u09be\u09ac\u099f\u09be \u0986\u099b\u09c7 \u09b8\u09c7\u099f\u09be \u09ac\u09c7\u099b\u09c7 \u09a8\u09bf\u09a8 (\u0995\u09cb\u09a3 \u09ac\u09be \u0995\u09bf\u09a8\u09be\u09b0\u09be \u099f\u09c7\u09a8\u09c7 \u09ac\u09a1\u09bc/\u099b\u09cb\u099f \u0995\u09b0\u09c1\u09a8, \u09ad\u09c7\u09a4\u09b0\u09c7 \u099f\u09c7\u09a8\u09c7 \u09b8\u09b0\u09be\u09a8, \u09ac\u09be\u0987\u09b0\u09c7 \u099f\u09c7\u09a8\u09c7 \u09a8\u09a4\u09c1\u09a8 \u0985\u0982\u09b6 \u0986\u0981\u0995\u09c1\u09a8):','Select the part with the expression (drag corners/edges to resize, drag inside to move, drag outside to draw a new box):')),wrap,rw);
+ cv.style.cssText='touch-action:none;border-radius:12px;display:block;margin:6px auto;max-width:100%';wrap.append(cv);
+ const draw=()=>{g.clearRect(0,0,W,H);g.drawImage(img,0,0,W,H);g.fillStyle='rgba(0,0,0,.55)';const{x,y,w,h}=R;g.fillRect(0,0,W,y);g.fillRect(0,y+h,W,H-y-h);g.fillRect(0,y,x,h);g.fillRect(x+w,y,W-x-w,h);g.strokeStyle='#f5c969';g.lineWidth=2;g.strokeRect(x,y,w,h);g.fillStyle='#f5c969';for(const[cx,cy]of[[x,y],[x+w,y],[x,y+h],[x+w,y+h]]){g.beginPath();g.arc(cx,cy,9,0,7);g.fill()}};
+ img.onload=()=>{const maxW=Math.max(240,bd.clientWidth),maxH=Math.round(innerHeight*.56),s=Math.min(maxW/img.width,maxH/img.height),dpr=window.devicePixelRatio||1;W=Math.round(img.width*s);H=Math.round(img.height*s);cv.width=W*dpr;cv.height=H*dpr;cv.style.width=W+'px';cv.style.height=H+'px';g.setTransform(dpr,0,0,dpr,0,0);R={x:W*.06,y:H*.28,w:W*.88,h:H*.44};draw()};
+ img.src=url;
+ const pos=e=>{const b=cv.getBoundingClientRect();return[(e.clientX-b.left)*W/b.width,(e.clientY-b.top)*H/b.height]};
+ const MIN=30,clampR=()=>{R.w=Math.max(MIN,Math.min(R.w,W));R.h=Math.max(MIN,Math.min(R.h,H));R.x=Math.max(0,Math.min(R.x,W-R.w));R.y=Math.max(0,Math.min(R.y,H-R.h))};
+ cv.addEventListener('pointerdown',e=>{cv.setPointerCapture(e.pointerId);const[px,py]=pos(e),{x,y,w,h}=R,T=Math.min(24,w/3,h/3),nl=Math.abs(px-x)<T,nr=Math.abs(px-(x+w))<T,nt=Math.abs(py-y)<T,nb=Math.abs(py-(y+h))<T,inX=px>x-T&&px<x+w+T,inY=py>y-T&&py<y+h+T;
+  if(inX&&inY&&(nl||nr||nt||nb))drag={m:'resize',l:nl,r:nr,t:nt,b:nb,o:{...R}};
+  else if(px>x&&px<x+w&&py>y&&py<y+h)drag={m:'move',px,py,o:{...R}};
+  else{drag={m:'new',px,py};R={x:px,y:py,w:1,h:1}}});
+ cv.addEventListener('pointermove',e=>{if(!drag)return;const[px,py]=pos(e),o=drag.o;
+  if(drag.m==='move'){R.x=o.x+px-drag.px;R.y=o.y+py-drag.py;clampR()}
+  else if(drag.m==='new'){const x1=Math.max(0,Math.min(px,drag.px)),y1=Math.max(0,Math.min(py,drag.py)),x2=Math.min(W,Math.max(px,drag.px)),y2=Math.min(H,Math.max(py,drag.py));R={x:x1,y:y1,w:x2-x1,h:y2-y1}}
+  else{let x1=o.x,y1=o.y,x2=o.x+o.w,y2=o.y+o.h;if(drag.l)x1=Math.min(px,x2-MIN);if(drag.r)x2=Math.max(px,x1+MIN);if(drag.t)y1=Math.min(py,y2-MIN);if(drag.b)y2=Math.max(py,y1+MIN);x1=Math.max(0,x1);y1=Math.max(0,y1);x2=Math.min(W,x2);y2=Math.min(H,y2);R={x:x1,y:y1,w:x2-x1,h:y2-y1}}
+  draw()});
+ const end=()=>{drag=null;if(R.w<MIN||R.h<MIN){clampR();draw()}};cv.addEventListener('pointerup',end);cv.addEventListener('pointercancel',end);
+ const go=whole=>{const f=whole?[0,0,1,1]:[R.x/W,R.y/H,(R.x+R.w)/W,(R.y+R.h)/H];cl();B.textContent=T2('\u09aa\u09a1\u09bc\u09be \u09b9\u099a\u09cd\u099b\u09c7\u2026','Reading\u2026');B.className='';if(window.Android&&Android.scanCrop)Android.scanCrop(f[0],f[1],f[2],f[3])};
+ rw.append(mk('button',T2('\u09a8\u09bf\u09b0\u09cd\u09ac\u09be\u099a\u09bf\u09a4 \u0985\u0982\u09b6 \u09b8\u09cd\u0995\u09cd\u09af\u09be\u09a8','Scan selected area'),'on',()=>go(false)),mk('button',T2('\u09aa\u09c1\u09b0\u09cb \u099b\u09ac\u09bf \u09b8\u09cd\u0995\u09cd\u09af\u09be\u09a8','Scan whole photo'),null,()=>go(true)),mk('button',T2('\u09ac\u09be\u09a4\u09bf\u09b2','Cancel'),null,cl))})}
+</script>
+<script>
+/* ===== algebra: division by expressions with letters, cancelling, rational results ===== */
+function isAlg(v){return !!(v&&(v.p||v.fn))}
+const isZeroV=v=>isQ(v)?v.n===0n:(v&&v.f===0);
+const pair=v=>v.fn?[v.fn,v.fd]:[v,Q(1n)];
+const cmpLex=(a,b)=>{const ls=[...new Set([...Object.keys(a),...Object.keys(b)])].sort();for(const l of ls){const x=a[l]||0,y=b[l]||0;if(x!==y)return x-y}return 0};
+function leadT(m){let best=null;for(const[k,c]of m){const o=pM(k);if(!best||cmpLex(o,best.o)>0)best={k,o,c}}return best}
+function polyDivExact(n,d){const R=new Map(n),Qt=new Map(),ld=leadT(d);
+ for(let it=0;it<400&&R.size;it++){const lr=leadT(R),o={...lr.o};
+  for(const l in ld.o){o[l]=(o[l]||0)-ld.o[l];if(o[l]<0)return null;if(o[l]===0)delete o[l]}
+  const c=div0(lr.c,ld.c),k=pK(o);Qt.set(k,Qt.has(k)?add0(Qt.get(k),c):c);
+  for(const[k2,c2]of d){const o2=pM(k2);for(const l in o)o2[l]=(o2[l]||0)+o[l];const kk=pK(o2),cc=mul0(c,c2),cur=R.get(kk),nv=cur===undefined?neg0(cc):add0(cur,neg0(cc));if(pZero(nv))R.delete(kk);else R.set(kk,nv)}}
+ return R.size?null:Qt}
+function normFrac(n,d){
+ if(!isAlg(d))return mul(n,div0(Q(1n),d));
+ if(!isAlg(n)&&isZeroV(n))return Q(0n);
+ const np=new Map(toP(n)),dp=new Map(d.p),all=[...np.keys(),...dp.keys()];
+ const letters=new Set();all.forEach(k=>Object.keys(pM(k)).forEach(l=>letters.add(l)));
+ const g={};letters.forEach(l=>{g[l]=Math.min(...all.map(k=>pM(k)[l]||0))});
+ const shift=m=>{const R=new Map();for(const[k,c]of m){const o=pM(k);for(const l in g){o[l]=(o[l]||0)-g[l];if(!o[l])delete o[l]}R.set(pK(o),c)}return R};
+ const np2=shift(np),dp2=shift(dp),nV=mkP(np2),dV=mkP(dp2);
+ if(!isAlg(dV))return mul(nV,div0(Q(1n),dV));
+ const allQ=[...np2.values(),...dp2.values()].every(isQ);
+ if(allQ){const q=polyDivExact(np2,dp2);if(q)return mkP(q)}
+ let N=np2,D=dp2;
+ if(allQ){let L=1n,gg=0n;for(const c of[...N.values(),...D.values()])L=L/G(L,c.d)*c.d;for(const c of[...N.values(),...D.values()])gg=G(gg,c.n*(L/c.d));if(gg===0n)gg=1n;const f=Q(L,gg),sc=m=>new Map([...m].map(([k,c])=>[k,mul0(c,f)]));N=sc(N);D=sc(D);
+  const ldc=leadT(D).c;if(ldc.n<0n){const ng=m=>new Map([...m].map(([k,c])=>[k,neg0(c)]));N=ng(N);D=ng(D)}}
+ return{fn:mkP(N),fd:mkP(D)}}
+function algNeg(a){return a.fn?{fn:neg(a.fn),fd:a.fd}:negP(a)}
+function algAdd(a,b,sg){if(!a.fn&&!b.fn)return addP(a,b,sg);const[n1,d1]=pair(a),[n2,d2]=pair(b);return normFrac(sg>0?add(mul(n1,d2),mul(n2,d1)):add(mul(n1,d2),neg(mul(n2,d1))),mul(d1,d2))}
+function algMul(a,b){if(!a.fn&&!b.fn)return mulP(a,b);const[n1,d1]=pair(a),[n2,d2]=pair(b);return normFrac(mul(n1,n2),mul(d1,d2))}
+function algDiv(a,b){const[n1,d1]=pair(a),[n2,d2]=pair(b),n=mul(n1,d2),d=mul(d1,n2);if(!isAlg(d)&&isZeroV(d))throw ER();return normFrac(n,d)}
+function algPow(a,b){if(isAlg(b)||!(isQ(b)&&b.d===1n&&A(b.n)<=30n))throw new Error('NoAlg');const k=Number(b.n);if(!isAlg(a))throw new Error('NoAlg');
+ const pw=(x,m)=>{let r=Q(1n);for(let i=0;i<m;i++)r=mul(r,x);return r};const[n,d]=pair(a);
+ return k>=0?normFrac(pw(n,k),pw(d,k)):normFrac(pw(d,-k),pw(n,-k))}
+const cT=c=>isQ(c)?(c.d===1n?c.n.toString():'('+c.n+')/('+c.d+')'):fmtF(c.f);
+const algT=x=>isAlg(x)?polyText(x):cT(x);
+const algText=v=>v.fn?'('+algT(v.fn)+')/('+algT(v.fd)+')':polyText(v);
+{const _s=show;show=function(v,f){_s(v,f);if(v&&v.fn){const t=algText(v);M.dataset.txt=t;M.innerHTML=pretty4(t,0,-1);M.style.fontSize=t.length>26?'20px':t.length>14?'26px':'';S.textContent='';B.textContent=T2('\u09ac\u09c0\u099c\u0997\u09a3\u09bf\u09a4 \u09ab\u09b2 (\u09b8\u09b0\u09b2\u09c0\u0995\u09c3\u09a4)','Algebraic result (simplified)');B.className=''}}}
+</script>
+<script>
+/* ===== a-z keyboard panel ===== */
+(function(){
+ const bar=$('.bar');
+ const CLOCK='<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
+ const hb2=bar.querySelector('button:nth-of-type(5)');if(hb2&&!hb2.querySelector('svg')){hb2.innerHTML=CLOCK;hb2.setAttribute('aria-label','History');hb2.style.minWidth='34px';hb2.style.padding='0 8px'}
+ let panel=null,pushed=false;
+ function close(fromPop){if(!panel)return false;panel.remove();panel=null;if(pushed&&!fromPop){pushed=false;try{history.back()}catch(e){}}else pushed=false;return true}
+ function press(k){
+  if(k==='\u25bc')return close();
+  if(k==='\u232b')return ACT.del();
+  if(k==='=')return ACT.eq();
+  if(k==='\u25c0')return ACT.left();
+  if(k==='\u25b6')return ACT.right();
+  if(k==='\u221a')return ins('\u221a(|)');
+  if(k==='\u00f7')return ACT.div();
+  ins(k)}
+ function toggle(){
+  if(panel)return close();
+  panel=mk('div',null,'abcp');
+  {const hd=mk('div',null,'abg');hd.setAttribute('aria-label','Close keyboard');let y0=null;hd.addEventListener('pointerdown',e=>{y0=e.clientY;try{hd.setPointerCapture(e.pointerId)}catch(x){}});hd.addEventListener('pointermove',e=>{if(y0!==null&&e.clientY-y0>24){y0=null;close()}});hd.addEventListener('pointerup',()=>{if(y0!==null){y0=null;close()}});hd.addEventListener('pointercancel',()=>{y0=null});panel.append(hd)}
+  const rows=[['1','2','3','4','5','6','7','8','9','0'],['q','w','e','r','t','y','u','i','o','p'],['a','s','d','f','g','h','j','k','l'],['z','x','c','v','b','n','m','\u232b'],['(',')','^','+','\u2212','\u00d7','\u00f7','.','='],['\u25bc','\u25c0','\u25b6','\u03c0','\u221a','%',',']];
+  rows.forEach(r=>{const row=mk('div',null,'abr');r.forEach(k=>{const b=mk('button',k,'abk'+(k==='='?' eqk':'')+(k==='\u232b'?' dk':'')+(/[a-z]/.test(k)?' lt':''),()=>press(k));b.addEventListener('pointerdown',e=>e.preventDefault());row.append(b)});panel.append(row)});
+  document.body.append(panel);try{history.pushState({abc:1},'');pushed=true}catch(e){pushed=false}}
+ window.abcToggle=toggle;window.abcClose=()=>close();
+ window.addEventListener('popstate',()=>{if(panel)close(true)});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&panel)close()});
+ const ab=mk('button','abc','k',toggle);ab.setAttribute('aria-label','Letters');ab.style.cssText='height:26px;min-width:34px;padding:0 8px;border-radius:13px;font-size:13px;font-weight:600';ab.addEventListener('pointerdown',e=>e.preventDefault());bar.insertBefore(ab,$('#st'));
+})();
 </script>
 <script>(function(){var d=document.documentElement;function show(){requestAnimationFrame(function(){requestAnimationFrame(function(){d.classList.remove("boot")})})}
 var l=window.__fl,tm=new Promise(function(r){setTimeout(r,1300)});
