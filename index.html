@@ -1124,5 +1124,29 @@ function derivMenu(){ov('d/dX',(bd,cl)=>{
  bd.append(mk('p',T2('চলক X ব্যবহার করুন (ALPHA + কী) অথবা abc কীবোর্ডে x','Use variable X (ALPHA + key) or x on the abc keyboard')))})}
 ACT.deriv=derivMenu;
 </script>
+<script>
+// অ্যাপে বর্তমান ভার্সন কোড সেট করুন
+const currentVersionCode = 1;
 
+// GitHub থেকে version.json চেক করার ফাংশন
+async function checkForUpdates() {
+    try {
+        let response = await fetch('https://ronystudio124.github.io/T-CALC/version.json');
+        let data = await response.json();
+
+        // সার্ভারের কোড যদি বর্তমান কোডের চেয়ে বেশি হয়
+        if (data.versionCode > currentVersionCode) {
+            let userConfirmed = confirm("নতুন আপডেট এসেছে! আপনি কি আপডেট করতে চান?");
+            if (userConfirmed) {
+                window.location.href = data.updateUrl;
+            }
+        }
+    } catch (error) {
+        console.log("অফলাইন মোড বা আপডেট চেক করতে সমস্যা হচ্ছে:", error);
+    }
+}
+
+// অ্যাপ চালু হওয়ার পরই চেক করবে
+checkForUpdates();
+</script>
 </body></html>
