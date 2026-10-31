@@ -124,6 +124,8 @@ body{background:radial-gradient(120% 52% at 100% -4%,var(--g1),transparent 62%),
 .abr button.eqk{background:linear-gradient(135deg,#ffe08a,#f2a31b);color:#2a1a00}
 .abr button:active{transform:translateY(2px);filter:brightness(1.2)}
 .abg{height:26px;margin:-8px 0 -4px;display:flex;justify-content:center;align-items:center;touch-action:none;cursor:pointer}.abg::before{content:"";width:48px;height:5px;border-radius:3px;background:var(--dim);opacity:.7}
+.ov select{width:100%;background:var(--sf);color:var(--tx);border:1px solid var(--ln);border-radius:10px;padding:10px 8px;font:15px system-ui,sans-serif;margin:3px 0 6px}
+.curbig{font:600 30px "IBM Plex Mono",ui-monospace,monospace;text-align:right;color:var(--ac);padding:14px 4px 4px;cursor:pointer;word-break:break-all}
 </style>
 <script>document.documentElement.classList.add("boot");setTimeout(function(){document.documentElement.classList.remove("boot")},4500)</script>
 </head><body>
@@ -197,7 +199,7 @@ function tokenize(s){const t=[];let i=0,m;
   if(m=/^(\d+\.?\d*|\.\d+)/.exec(r)){t.push({k:'n',v:m[0]});i+=m[0].length;continue}
   if(m=/^[A-Za-z]+/.exec(r)){const w=m[0];i+=w.length;
    if(w==='e')t.push({k:'c',v:'e'});else if(w==='ran')t.push({k:'c',v:'ran'});else if(w==='Ans'||w==='PreAns')t.push({k:'v',v:w});else if(/^[A-FMXY]+$/.test(w)){for(const ch of w)t.push({k:'v',v:ch})}
-   else if(INF[w])t.push({k:'i',v:w});else if(FN[w]||LAZY[w])t.push({k:'f',v:w});else if(/^[a-z]+$/.test(w)){for(const ch of w)t.push({k:'s',v:ch})}else throw SE();continue}
+   else if(INF[w])t.push({k:'i',v:w});else if(FN[w]||LAZY[w])t.push({k:'f',v:w});else if(/^[a-z]+$/.test(w)){for(const ch of w)t.push(ch==='x'?{k:'v',v:'X'}:{k:'s',v:ch})}else throw SE();continue}
   i++;
   if(c==='π')t.push({k:'c',v:'pi'});else if(c==='√')t.push({k:'f',v:'sqrt'});else if(c==='∛')t.push({k:'f',v:'cbrt'});
   else if('+-−×÷*/^!%(),'.includes(c))t.push({k:'o',v:c==='−'?'-':c==='×'?'*':c==='÷'?'/':c});else throw SE()}
@@ -386,7 +388,7 @@ function solve(){const s=inp.value.trim();if(!s)return;const pr=s.split('=');if(
  if(!rt.length){M.textContent='সমাধান নেই';M.className='err';S.textContent='X-এর কোনো বাস্তব মান পাওয়া যায়নি (−500 থেকে 500)';B.textContent='';return}
  const x0=num(VARS.X||Q(0n));rt.sort((p,q)=>Math.abs(p-x0)-Math.abs(q-x0));const sn=snap(rt[0]);VARS.X=sn;ans=sn;done=true;show(sn,true);M.textContent='X = '+M.textContent;if(rt.length>1)S.textContent=(S.textContent?S.textContent+'   ':'')+'অন্য: '+rt.slice(1,5).map(r=>fmtF(r)).join(', ')}
 function fmenu(){ov('ফাংশন',(bd,cl)=>grid(bd,[
- ['d/dx','f(X), a',T('diff(')],['∫dx','f(X), a, b',T('intg(')],['Σ','f(X), শুরু, শেষ',T('sigma(')],['Π','f(X), শুরু, শেষ',T('prod(')],['Limit','f(X), a',T('limit(')],['SOLVE','a=b, চলক X',solve],
+ ['d/dx','f(X), a',derivMenu],['∫dx','f(X), a, b',T('intg(')],['Σ','f(X), শুরু, শেষ',T('sigma(')],['Π','f(X), শুরু, শেষ',T('prod(')],['Limit','f(X), a',T('limit(')],['SOLVE','a=b, চলক X',solve],
  ['CALC','চলকসহ হিসাব',calc],['STO','মান জমা',sto],['RCL','চলক বসান',rcl],
  ['logₓy','base, x',T('logb(')],['÷R','ভাগফল ও ভাগশেষ',T('divr(')],['FACT','মৌলিক উৎপাদক',T('factor(')],
  ['Pol','x, y → r∠θ',T('pol(')],['Rec','r, θ → x, y',T('rec(')],['DMS','° ′ ″',T('dms(')],
@@ -423,7 +425,7 @@ function settings(){ov('সেটিংস',(bd,cl)=>{langSec(bd,cl);feelSec(bd,
  row('Fix/Sci অঙ্ক',[2,4,6,9,11].map(n=>[String(n),SET.n===n,()=>{SET.n=n}]));
  row('ENG / SI',[['বন্ধ',!SET.eng,()=>{SET.eng=0}],['ENG',SET.eng===1,()=>{SET.eng=1}],['SI',SET.eng===2,()=>{SET.eng=2}]])})}
 function clrAll(){for(const k in VARS)delete VARS[k];mem=Q(0n);ans=Q(0n);hist=[];try{localStorage.removeItem('xc_h')}catch(e){}$('#mem').textContent='';ACT.ac()}
-function tmenu(){ov('টুলস',(bd,cl)=>{grid(bd,[['GRAPH',T2('y=f(x) গ্রাফ','Plot y = f(x)'),graphOv],['BASE',T2('বাইনারি, হেক্স ও লজিক','Binary, hex & logic'),baseOv],['STAT','পরিসংখ্যান',stat],['MATRIX','ম্যাট্রিক্স ও ভেক্টর',matr],['CONST','ধ্রুবক',cons],['CONV','একক রূপান্তর',conv],['সেটিংস','কোণ, ফরম্যাট, %',settings],['কপি','ফল কপি',()=>ACT.copy()],['পেস্ট','ক্লিপবোর্ড থেকে',()=>{try{navigator.clipboard.readText().then(t=>ins(t),()=>{})}catch(e){}}],['থিম','ডার্ক/লাইট',()=>ACT.theme()],['CLR ALL','সব মুছুন',clrAll]],cl);devFoot(bd)})}
+function tmenu(){ov('টুলস',(bd,cl)=>{grid(bd,[['CUR',T2('মুদ্রা রূপান্তর','Currency'),curOv],['FIN',T2('টাকার হিসাব','Money & loans'),finOv],['GRAPH',T2('y=f(x) গ্রাফ','Plot y = f(x)'),graphOv],['BASE',T2('বাইনারি, হেক্স ও লজিক','Binary, hex & logic'),baseOv],['STAT','পরিসংখ্যান',stat],['MATRIX','ম্যাট্রিক্স ও ভেক্টর',matr],['CONST','ধ্রুবক',cons],['CONV','একক রূপান্তর',conv],['সেটিংস','কোণ, ফরম্যাট, %',settings],['কপি','ফল কপি',()=>ACT.copy()],['পেস্ট','ক্লিপবোর্ড থেকে',()=>{try{navigator.clipboard.readText().then(t=>ins(t),()=>{})}catch(e){}}],['থিম','ডার্ক/লাইট',()=>ACT.theme()],['CLR ALL','সব মুছুন',clrAll]],cl);devFoot(bd)})}
 [['ƒ','ফাংশন',fmenu],['☰','টুলস',tmenu]].forEach(([l,a,f])=>{const b=mk('button',l,'k',f);b.setAttribute('aria-label',a);b.style.cssText='height:26px;width:34px;padding:0;font-size:15px;border-radius:13px';b.addEventListener('pointerdown',e=>e.preventDefault());$('.bar').insertBefore(b,$('#mem'))});
 document.querySelectorAll('.bar button[aria-label="copy"],.bar button[aria-label="theme"]').forEach(b=>b.remove());
 </script>
@@ -454,7 +456,7 @@ const dp=mk('div',null,'dp');[['▲','up',2,1],['◀','left',1,2],['▶','right'
 function build6(rows){const g=mk('div',null,'g6');rows.forEach((row,ri)=>{let col=1;row.forEach(sp=>{if(sp==='DP'){dp.style.gridColumn='3 / 5';dp.style.gridRow='1 / 3';g.append(dp);col+=2;return}if(sp==='SK'){col+=2;return}const c=cell(sp);c.style.gridColumn=col;c.style.gridRow=ri+1;g.append(c);col++})});return g}
 const r6=[
  [k('SHIFT','!shift',null,null,'f shk'),k('ALPHA','!alpha',null,null,'f alk'),'DP',k('MODE','!settings',null,null,'f'),k('2nd','!fmenu',null,null,'f')],
- [k('CALC','!calc',['SOLVE','!solve'],['=','='],'f'),k('∫dx','!integ',['d/dx','diff('],[',',','],'f'),'SK',k('x⁻¹','^(-1)',['x!','!'],null,'f'),k('Logₓy','logb(',['Σ','sigma('],['Π','prod('],'f')],
+ [k('CALC','!calc',['SOLVE','!solve'],['=','='],'f'),k('∫dx','!integ',['d/dx','!deriv'],[',',','],'f'),'SK',k('x⁻¹','^(-1)',['x!','!'],null,'f'),k('Logₓy','logb(',['Σ','sigma('],['Π','prod('],'f')],
  [k('x/y','!frac',['a b/c','!mixed'],['÷R','divr('],'f'),k('√x','√(',['∛','∛('],['mod',' mod '],'f'),k('x²','^(2)',['x³','^(3)'],null,'f'),k('xʸ','^(',['ˣ√y','root('],null,'f'),k('Log','log(',['10ˣ','10^('],null,'f'),k('Ln','ln(',['eˣ','exp('],null,'f')],
  [k('(−)','-',null,['a','A'],'f'),k('° ′ ″','dms(',['FACT','factor('],['b','B'],'f'),k('hyp','!hyp',['|x|','abs('],['c','C'],'f'),k('Sin','sin(',['sin⁻¹','asin('],['d','D'],'f'),k('Cos','cos(',['cos⁻¹','acos('],['e','E'],'f'),k('Tan','tan(',['tan⁻¹','atan('],['f','F'],'f')],
  [k('RCL','!rcl',['STO','!sto'],['CLRv','!clrv'],'f'),k('%','%',['ENG','!eng'],['Cot','cot('],'f'),k('(','(',null,null,'f'),k(')',')',[',',','],['x','X'],'f'),k('S⇔D','!sd',null,['y','Y'],'f'),k('M+','!m+',['M−','!m-'],['m','M'],'f')]];
@@ -800,6 +802,96 @@ const algText=v=>v.fn?'('+algT(v.fn)+')/('+algT(v.fd)+')':polyText(v);
  const ab=mk('button','abc','k',toggle);ab.setAttribute('aria-label','Letters');ab.style.cssText='height:26px;min-width:34px;padding:0 8px;border-radius:13px;font-size:13px;font-weight:600';ab.addEventListener('pointerdown',e=>e.preventDefault());bar.insertBefore(ab,$('#st'));
 })();
 </script>
+
+<script>
+(function(){
+/* ---------- FIN: money & loans ---------- */
+const BN_=()=>LANG==='bn';
+const grpN=x=>BN_()?(x.length<=3?x:x.slice(0,-3).replace(/\B(?=(\d{2})+$)/g,',')+','+x.slice(-3)):x.replace(/\B(?=(\d{3})+$)/g,',');
+const toQ=v=>isQ(v)?v:Q(BigInt(Math.round(v.f*1e8)),100000000n);
+function mny(v,plain){const q=toQ(v),ng=q.n<0n,n=A(q.n),sc=(n*200n+q.d)/(2n*q.d),s=sc.toString().padStart(3,'0'),ip=s.slice(0,-2),fp=s.slice(-2);return(ng&&sc!==0n?'-':'')+(plain?ip:grpN(ip))+'.'+fp}
+const parseV=el=>{const t=el.value.trim();if(!t)return null;try{const v=evalExpr(t,ctx());return isAlg(v)?null:v}catch(e){return null}};
+function finOv(){ov(T2('\u099f\u09be\u0995\u09be\u09b0 \u09b9\u09bf\u09b8\u09be\u09ac','Money & loans'),(bd,cl2)=>{
+ const tabs=mk('div',null,'rw'),body=mk('div');let cur=0;
+ const defs=[[T2('\u0995\u09bf\u09b8\u09cd\u09a4\u09bf (EMI)','Loan EMI'),emiTab],[T2('\u09b8\u09c1\u09a6','Interest'),intTab],[T2('\u09b2\u09be\u09ad-\u0995\u09cd\u09b7\u09a4\u09bf','Profit / Loss'),plTab],[T2('\u09ad\u09cd\u09af\u09be\u099f/\u099b\u09be\u09a1\u09bc','VAT / Discount'),vatTab]];
+ const show_=i=>{cur=i;[...tabs.children].forEach((b,j)=>b.classList.toggle('on',j===i));body.textContent='';defs[i][1](body)};
+ defs.forEach(([l],i)=>tabs.append(mk('button',l,i===0?'on':'',()=>show_(i))));
+ bd.append(tabs,body,mk('p',T2('\u09ab\u09b2\u09c7\u09b0 \u0993\u09aa\u09b0 \u099a\u09be\u09aa\u09b2\u09c7 \u09b8\u0982\u0996\u09cd\u09af\u09be\u099f\u09be \u0995\u09cd\u09af\u09be\u09b2\u0995\u09c1\u09b2\u09c7\u099f\u09b0\u09c7 \u099a\u09b2\u09c7 \u09af\u09be\u09ac\u09c7\u0964 \u09b8\u0982\u0996\u09cd\u09af\u09be \u0998\u09b0\u09c7 2*5000 \u09b2\u09bf\u0996\u09b2\u09c7\u0993 \u099a\u09b2\u09c7\u0964','Tap a result to send it to the calculator. You can type 2*5000 in a field too.')));
+ function field(host,label,def){host.append(mk('p',label));const i=mk('input');i.inputMode='decimal';i.value=def;host.append(i);return i}
+ function resRow(host,label,v,strong){const r=mk('div',null,'lb',()=>{cl2();ins(mny(v,true))});r.append(mk('b',label),mk('span',mny(v)));if(strong)r.style.color='var(--ac)';host.append(r)}
+ function emiTab(h){const P=field(h,T2('\u098b\u09a3\u09c7\u09b0 \u09aa\u09b0\u09bf\u09ae\u09be\u09a3','Loan amount'),'500000'),R=field(h,T2('\u09ac\u09be\u09b0\u09cd\u09b7\u09bf\u0995 \u09b8\u09c1\u09a6\u09c7\u09b0 \u09b9\u09be\u09b0 (%)','Annual interest rate (%)'),'9.5'),N=field(h,T2('\u09ae\u09c7\u09df\u09be\u09a6 (\u09ae\u09be\u09b8)','Tenure (months)'),'60'),out=mk('div'),sch=mk('div');
+  const upd=()=>{out.textContent='';sch.textContent='';const p=parseV(P),r=parseV(R),nv=parseV(N);if(!p||!r||!nv)return;const n=Math.round(num(nv));if(!(n>=1&&n<=600)||num(p)<=0)return;
+   const mr=div(r,Q(1200n));let E;if(num(mr)===0)E=div(p,Q(BigInt(n)));else{const g=pow(add(Q(1n),mr),Q(BigInt(n)));E=div(mul(mul(p,mr),g),sub(g,Q(1n)))}
+   const tot=mul(E,Q(BigInt(n)));resRow(out,T2('\u09ae\u09be\u09b8\u09bf\u0995 \u0995\u09bf\u09b8\u09cd\u09a4\u09bf (EMI)','Monthly EMI'),E,true);resRow(out,T2('\u09ae\u09cb\u099f \u09b8\u09c1\u09a6','Total interest'),sub(tot,p));resRow(out,T2('\u09ae\u09cb\u099f \u09aa\u09b0\u09bf\u09b6\u09cb\u09a7','Total payment'),tot);
+   const sb=mk('button',T2('\u09aa\u09c1\u09b0\u09cb \u0995\u09bf\u09b8\u09cd\u09a4\u09bf\u09b0 \u09a4\u09be\u09b2\u09bf\u0995\u09be','Show full schedule'),null,()=>{sb.remove();let bal=num(p);const rr=num(mr),e=num(E);let html='';const tb=mk('table');const hd=mk('tr');['#',T2('\u09b8\u09c1\u09a6','Interest'),T2('\u0985\u09b0\u09cd\u09a5','Principal'),T2('\u09ac\u0995\u09c7\u09df\u09be','Balance')].forEach(x=>hd.append(mk('td',x)));tb.append(hd);
+    for(let k=1;k<=n;k++){const it=bal*rr,pr=e-it;bal=Math.max(0,bal-pr);const tr=mk('tr');[String(k),mny(F(it),true),mny(F(pr),true),mny(F(bal),true)].forEach(x=>tr.append(mk('td',x)));tb.append(tr)}sch.append(tb)});out.append(sb)};
+  [P,R,N].forEach(e=>e.addEventListener('input',upd));h.append(out,sch);upd()}
+ function intTab(h){const P=field(h,T2('\u0986\u09b8\u09b2 \u099f\u09be\u0995\u09be','Principal'),'10000'),R=field(h,T2('\u09ac\u09be\u09b0\u09cd\u09b7\u09bf\u0995 \u09b9\u09be\u09b0 (%)','Annual rate (%)'),'10'),T=field(h,T2('\u09b8\u09ae\u09df (\u09ac\u099b\u09b0)','Time (years)'),'2'),M=field(h,T2('\u099a\u0995\u09cd\u09b0\u09ac\u09c3\u09a6\u09cd\u09a7\u09bf \u09ac\u099b\u09b0\u09c7 \u0995\u09df\u09ac\u09be\u09b0 (\u099a\u0995\u09cd\u09b0\u09ac\u09c3\u09a6\u09cd\u09a7\u09bf \u09b8\u09c1\u09a6\u09c7\u09b0 \u099c\u09a8\u09cd\u09af)','Compounds per year (for compound interest)'),'1'),out=mk('div');
+  const upd=()=>{out.textContent='';const p=parseV(P),r=parseV(R),t=parseV(T),m=parseV(M);if(!p||!r||!t)return;
+   const si=div(mul(mul(p,r),t),Q(100n));out.append(mk('p',T2('\u09b8\u09b0\u09b2 \u09b8\u09c1\u09a6','Simple interest')));resRow(out,T2('\u09b8\u09c1\u09a6','Interest'),si,true);resRow(out,T2('\u09ae\u09cb\u099f','Amount'),add(p,si));
+   if(m&&num(m)>=1){const base=add(Q(1n),div(r,mul(Q(100n),m))),ex=mul(m,t);let A_;if(isQ(ex)&&ex.d===1n&&ex.n<=2000n&&isQ(base))A_=mul(p,pow(base,ex));else A_=F(num(p)*Math.pow(num(base),num(ex)));
+    out.append(mk('p',T2('\u099a\u0995\u09cd\u09b0\u09ac\u09c3\u09a6\u09cd\u09a7\u09bf \u09b8\u09c1\u09a6','Compound interest')));resRow(out,T2('\u09b8\u09c1\u09a6','Interest'),sub(A_,p),true);resRow(out,T2('\u09ae\u09cb\u099f','Amount'),A_)}};
+  [P,R,T,M].forEach(e=>e.addEventListener('input',upd));h.append(out);upd()}
+ function plTab(h){const mode=mk('div',null,'rw'),host=mk('div');let md=0;
+  const draw=()=>{host.textContent='';[...mode.children].forEach((b,j)=>b.classList.toggle('on',j===md));const out=mk('div');
+   if(md===0){const C_=field(host,T2('\u0995\u09cd\u09b0\u09df\u09ae\u09c2\u09b2\u09cd\u09af','Cost price'),'800'),S_=field(host,T2('\u09ac\u09bf\u0995\u09cd\u09b0\u09df\u09ae\u09c2\u09b2\u09cd\u09af','Selling price'),'920');
+    const u=()=>{out.textContent='';const c=parseV(C_),s=parseV(S_);if(!c||!s||num(c)<=0)return;const d=sub(s,c),pc=div(mul(d,Q(100n)),c),gain=num(d)>=0;resRow(out,gain?T2('\u09b2\u09be\u09ad','Profit'):T2('\u0995\u09cd\u09b7\u09a4\u09bf','Loss'),pl_abs(d),true);resRow(out,(gain?T2('\u09b2\u09be\u09ad','Profit'):T2('\u0995\u09cd\u09b7\u09a4\u09bf','Loss'))+' %',pl_abs(pc))};
+    [C_,S_].forEach(e=>e.addEventListener('input',u));host.append(out);u()}
+   else if(md===1){const C_=field(host,T2('\u0995\u09cd\u09b0\u09df\u09ae\u09c2\u09b2\u09cd\u09af','Cost price'),'800'),P_=field(host,T2('\u09b2\u09be\u09ad % (\u0995\u09cd\u09b7\u09a4\u09bf \u09b9\u09b2\u09c7 \u098b\u09a3\u09be\u09a4\u09cd\u09ae\u0995)','Profit % (negative for loss)'),'15');
+    const u=()=>{out.textContent='';const c=parseV(C_),p=parseV(P_);if(!c||!p)return;const sp=mul(c,add(Q(1n),div(p,Q(100n))));resRow(out,T2('\u09ac\u09bf\u0995\u09cd\u09b0\u09df\u09ae\u09c2\u09b2\u09cd\u09af','Selling price'),sp,true);resRow(out,T2('\u09b2\u09be\u09ad/\u0995\u09cd\u09b7\u09a4\u09bf','Profit / loss'),sub(sp,c))};
+    [C_,P_].forEach(e=>e.addEventListener('input',u));host.append(out);u()}
+   else{const S_=field(host,T2('\u09ac\u09bf\u0995\u09cd\u09b0\u09df\u09ae\u09c2\u09b2\u09cd\u09af','Selling price'),'920'),P_=field(host,T2('\u09b2\u09be\u09ad % (\u0995\u09cd\u09b7\u09a4\u09bf \u09b9\u09b2\u09c7 \u098b\u09a3\u09be\u09a4\u09cd\u09ae\u0995)','Profit % (negative for loss)'),'15');
+    const u=()=>{out.textContent='';const s=parseV(S_),p=parseV(P_);if(!s||!p||num(add(Q(100n),p))<=0)return;const cp=div(mul(s,Q(100n)),add(Q(100n),p));resRow(out,T2('\u0995\u09cd\u09b0\u09df\u09ae\u09c2\u09b2\u09cd\u09af','Cost price'),cp,true);resRow(out,T2('\u09b2\u09be\u09ad/\u0995\u09cd\u09b7\u09a4\u09bf','Profit / loss'),sub(s,cp))};
+    [S_,P_].forEach(e=>e.addEventListener('input',u));host.append(out);u()}};
+  [T2('\u0995\u09cd\u09b0\u09df + \u09ac\u09bf\u0995\u09cd\u09b0\u09df','Cost + Selling'),T2('\u0995\u09cd\u09b0\u09df + \u09b2\u09be\u09ad %','Cost + Profit %'),T2('\u09ac\u09bf\u0995\u09cd\u09b0\u09df + \u09b2\u09be\u09ad %','Selling + Profit %')].forEach((l,i)=>mode.append(mk('button',l,null,()=>{md=i;draw()})));h.append(mode,host);draw()}
+ const pl_abs=v=>isQ(v)?Q(A(v.n),v.d):F(Math.abs(v.f));
+ function vatTab(h){const P=field(h,T2('\u09a6\u09be\u09ae / \u099f\u09be\u0995\u09be\u09b0 \u09aa\u09b0\u09bf\u09ae\u09be\u09a3','Amount'),'1000'),R=field(h,T2('\u09b9\u09be\u09b0 (%) \u2014 \u09ad\u09cd\u09af\u09be\u099f \u09ac\u09be \u099b\u09be\u09a1\u09bc','Rate (%) \u2014 VAT or discount'),'15'),out=mk('div');
+  const upd=()=>{out.textContent='';const p=parseV(P),r=parseV(R);if(!p||!r)return;const tax=div(mul(p,r),Q(100n));
+   out.append(mk('p',T2('\u09ad\u09cd\u09af\u09be\u099f \u09af\u09cb\u0997 \u0995\u09b0\u09b2\u09c7','Add VAT')));resRow(out,T2('\u09ad\u09cd\u09af\u09be\u099f','VAT'),tax);resRow(out,T2('\u09ae\u09cb\u099f','Total'),add(p,tax),true);
+   if(num(add(Q(100n),r))>0){const base=div(mul(p,Q(100n)),add(Q(100n),r));out.append(mk('p',T2('\u09ad\u09cd\u09af\u09be\u099f\u09b8\u09b9 \u09a6\u09be\u09ae \u09b9\u09b2\u09c7 \u09ad\u09cd\u09af\u09be\u099f \u09ac\u09be\u09a6 \u09a6\u09bf\u09b2\u09c7','VAT is included, remove it')));resRow(out,T2('\u09ad\u09cd\u09af\u09be\u099f \u099b\u09be\u09a1\u09bc\u09be \u09a6\u09be\u09ae','Price without VAT'),base,true);resRow(out,T2('\u09ad\u09cd\u09af\u09be\u099f\u09c7\u09b0 \u0985\u0982\u09b6','VAT part'),sub(p,base))}
+   out.append(mk('p',T2('\u099b\u09be\u09a1\u09bc \u09b9\u09b2\u09c7','Discount')));resRow(out,T2('\u09b8\u09be\u09b6\u09cd\u09b0\u09df','You save'),tax);resRow(out,T2('\u09aa\u09b0\u09bf\u09b6\u09cb\u09a7\u09af\u09cb\u0997\u09cd\u09af','You pay'),sub(p,tax),true)};
+  [P,R].forEach(e=>e.addEventListener('input',upd));h.append(out);upd()}
+ show_(0)})}
+window.finOv=finOv;
+})();
+</script>
+<script>
+/* ===== currency converter (live rates online, saved/sample rates offline) ===== */
+(function(){
+const CUR=[['BDT','বাংলাদেশি টাকা','Bangladeshi taka'],['USD','মার্কিন ডলার','US dollar'],['EUR','ইউরো','Euro'],['GBP','ব্রিটিশ পাউন্ড','British pound'],['INR','ভারতীয় রুপি','Indian rupee'],['SAR','সৌদি রিয়াল','Saudi riyal'],['AED','UAE দিরহাম','UAE dirham'],['KWD','কুয়েতি দিনার','Kuwaiti dinar'],['QAR','কাতারি রিয়াল','Qatari riyal'],['OMR','ওমানি রিয়াল','Omani rial'],['BHD','বাহরাইনি দিনার','Bahraini dinar'],['MYR','মালয়েশিয়ান রিংগিত','Malaysian ringgit'],['SGD','সিঙ্গাপুর ডলার','Singapore dollar'],['JPY','জাপানি ইয়েন','Japanese yen'],['CNY','চীনা ইউয়ান','Chinese yuan'],['KRW','কোরিয়ান ওন','South Korean won'],['AUD','অস্ট্রেলিয়ান ডলার','Australian dollar'],['CAD','কানাডিয়ান ডলার','Canadian dollar'],['CHF','সুইস ফ্রাঙ্ক','Swiss franc'],['PKR','পাকিস্তানি রুপি','Pakistani rupee'],['NPR','নেপালি রুপি','Nepalese rupee'],['LKR','শ্রীলঙ্কান রুপি','Sri Lankan rupee'],['THB','থাই বাথ','Thai baht'],['IDR','ইন্দোনেশিয়ান রুপিয়া','Indonesian rupiah'],['TRY','তুর্কি লিরা','Turkish lira'],['RUB','রুশ রুবল','Russian ruble'],['BRL','ব্রাজিলিয়ান রিয়াল','Brazilian real'],['ZAR','দক্ষিণ আফ্রিকান র‍্যান্ড','South African rand'],['MXN','মেক্সিকান পেসো','Mexican peso'],['HKD','হংকং ডলার','Hong Kong dollar']];
+const SAMPLE={usd:1,bdt:122,eur:0.92,gbp:0.78,inr:84,sar:3.75,aed:3.6725,kwd:0.307,qar:3.64,omr:0.385,bhd:0.376,myr:4.45,sgd:1.34,jpy:150,cny:7.2,krw:1350,aud:1.52,cad:1.37,chf:0.88,pkr:278,npr:134,lkr:300,thb:35,idr:15800,try:34,rub:92,brl:5.0,zar:18.5,mxn:18,hkd:7.8};
+let ST={from:'USD',to:'BDT',amt:'100',rates:null,date:'',ts:0};
+try{Object.assign(ST,JSON.parse(localStorage.getItem('xc_cur')||'{}'))}catch(e){}
+const save=()=>{try{localStorage.setItem('xc_cur',JSON.stringify(ST))}catch(e){}};
+const URLS=['https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json','https://latest.currency-api.pages.dev/v1/currencies/usd.json','https://open.er-api.com/v6/latest/USD'];
+async function getJson(u){const c=new AbortController(),t=setTimeout(()=>c.abort(),7000);try{const r=await fetch(u,{cache:'no-store',signal:c.signal});if(!r.ok)throw 0;return await r.json()}finally{clearTimeout(t)}}
+async function fetchRates(){for(const u of URLS){try{const j=await getJson(u);let r=null,d='';
+  if(j&&j.usd&&typeof j.usd==='object'){r=j.usd;d=j.date||''}
+  else if(j&&j.rates){r={};for(const k in j.rates)r[k.toLowerCase()]=j.rates[k];d=(j.time_last_update_utc||'').slice(0,16)}
+  if(r&&r.bdt&&r.usd!==undefined){ST.rates=r;ST.date=d;ST.ts=Date.now();save();return true}}catch(e){}}return false}
+const grpC=x=>LANG==='bn'?(x.length<=3?x:x.slice(0,-3).replace(/\B(?=(\d{2})+$)/g,',')+','+x.slice(-3)):x.replace(/\B(?=(\d{3})+$)/g,',');
+function fmtC(x){if(!isFinite(x))return '\u2014';const ng=x<0;x=Math.abs(x);const dp=x>=100?2:x>=1?3:x>=0.01?5:8;let s=x.toFixed(dp);let[i,f]=s.split('.');return(ng?'-':'')+grpC(i)+'.'+f}
+function curOv(){ov(T2('মুদ্রা রূপান্তর','Currency converter'),(bd,cl)=>{
+ const amt=mk('input'),fs=mk('select'),ts=mk('select'),sw=mk('button','\u21c5','bt',null),big=mk('div',null,'curbig'),line=mk('p'),stat=mk('p'),up=mk('button',T2('রেট আপডেট করুন','Update rates'),'bt eq',null);
+ amt.inputMode='decimal';amt.value=ST.amt;
+ CUR.forEach(([c,bn,en])=>{for(const s of[fs,ts]){const o=mk('option',c+' \u2014 '+T2(bn,en));o.value=c;s.append(o)}});
+ fs.value=ST.from;ts.value=ST.to;
+ const rates=()=>ST.rates||SAMPLE;
+ const calc=()=>{const R=rates(),f=R[fs.value.toLowerCase()],t=R[ts.value.toLowerCase()];let a=NaN;try{a=num(evalExpr(amt.value,ctx()))}catch(e){}
+  ST.amt=amt.value;ST.from=fs.value;ST.to=ts.value;save();
+  if(!f||!t||!isFinite(a)){big.textContent='\u2014';line.textContent='';return}
+  const r=a*t/f;big.textContent=fmtC(r)+' '+ts.value;big.dataset.v=String(+r.toFixed(8));line.textContent='1 '+fs.value+' = '+fmtC(t/f)+' '+ts.value;
+  stat.textContent=ST.rates?(Date.now()-ST.ts<864e5?T2('লাইভ রেট','Live rates'):T2('সংরক্ষিত রেট','Saved rates'))+(ST.date?' ('+ST.date+')':''):T2('আনুমানিক নমুনা রেট। সঠিক রেটের জন্য ইন্টারনেটে "রেট আপডেট করুন" চাপুন','Approximate sample rates. Connect to the internet and tap "Update rates" for accurate values')};
+ const refresh=async(quiet)=>{up.disabled=true;if(!quiet)stat.textContent=T2('আপডেট হচ্ছে\u2026','Updating\u2026');const ok=await fetchRates();up.disabled=false;calc();if(!ok&&!quiet)stat.textContent=T2('আপডেট করা যায়নি (ইন্টারনেট নেই?)। আগের রেট দেখানো হচ্ছে।','Could not update (offline?). Showing the previous rates.')};
+ [amt,fs,ts].forEach(e=>e.addEventListener('input',calc));fs.addEventListener('change',calc);ts.addEventListener('change',calc);
+ sw.onclick=()=>{const a=fs.value;fs.value=ts.value;ts.value=a;calc()};up.onclick=()=>refresh(false);
+ big.onclick=()=>{if(big.dataset.v){cl();ins(big.dataset.v)}};
+ const row=mk('div');row.style.cssText='display:flex;gap:8px;align-items:center';const col=mk('div');col.style.cssText='flex:1;min-width:0';col.append(fs,ts);row.append(col,sw);
+ bd.append(mk('p',T2('পরিমাণ','Amount')),amt,mk('p',T2('থেকে / এতে','From / To')),row,big,line,stat,up,mk('p',T2('ফলের উপর চাপলে সংখ্যাটা ক্যালকুলেটরে চলে যাবে।','Tap the result to send it to the calculator.')));
+ calc();if(navigator.onLine!==false&&(!ST.ts||Date.now()-ST.ts>216e5))refresh(true)})}
+window.curOv=curOv;
+})();
+</script>
 <script>(function(){var d=document.documentElement;function show(){requestAnimationFrame(function(){requestAnimationFrame(function(){d.classList.remove("boot")})})}
 var l=window.__fl,tm=new Promise(function(r){setTimeout(r,1300)});
 var f=(l&&!l.sheet)?new Promise(function(r){l.addEventListener("load",r);l.addEventListener("error",r)}):Promise.resolve();
@@ -815,7 +907,7 @@ Promise.race([f.then(function(){return document.fonts&&document.fonts.load?Promi
 HID.push('defint(','indef(');
 const NZ=v=>({t:'n',v}),XN={t:'x'};
 function parseAST(src,ctx){const t=typeof src==='string'?tokenize(src):src;let p=0;const pk=()=>t[p],nx=()=>t[p++],op=v=>pk()&&pk().k==='o'&&pk().v===v;
- const start=()=>{const k=pk();return k&&(k.k==='n'||k.k==='c'||k.k==='f'||k.k==='v'||(k.k==='o'&&k.v==='('))};
+ const start=()=>{const k=pk();return k&&(k.k==='n'||k.k==='c'||k.k==='f'||k.k==='v'||k.k==='s'||(k.k==='o'&&k.v==='('))};
  function expr(){let a=term();while(op('+')||op('-')){const o=nx().v,b=term();a={t:'add',a,b:o==='+'?b:{t:'neg',a:b}}}return a}
  function term(){let a=unary();while(op('*')||op('/')){const o=nx().v,b=unary();a=o==='*'?{t:'mul',a,b}:{t:'div',a,b}}return a}
  function unary(){if(op('-')){nx();return{t:'neg',a:unary()}}if(op('+')){nx();return unary()}return imp()}
@@ -825,6 +917,7 @@ function parseAST(src,ctx){const t=typeof src==='string'?tokenize(src):src;let p
  function prim(){const k=nx();if(!k)throw SE();
   if(k.k==='n'){const[i,f='']=k.v.split('.');return{t:'n',v:Q(BigInt((i||'0')+f),10n**BigInt(f.length))}}
   if(k.k==='c')return{t:'c',s:k.v==='pi'?'\u03c0':'e'};
+  if(k.k==='s')return{t:'c',s:k.v};
   if(k.k==='v'){if(k.v==='X')return XN;const v=k.v==='Ans'?ctx.ans:k.v==='M'?ctx.mem:((ctx.vars&&ctx.vars[k.v])||Q(0n));return isQ(v)?{t:'n',v}:{t:'c',s:String(v.f)}}
   if(k.k==='f'){if(!op('('))throw SE();nx();const a=[expr()];while(op(',')){nx();a.push(expr())}if(op(')'))nx();return{t:'f',name:k.v,a}}
   if(k.k==='o'&&k.v==='('){const a=expr();if(op(')'))nx();return a}throw SE()}
@@ -914,6 +1007,91 @@ function integMenu(){ov('\u222b',(bd,cl)=>{
  [[4,'LegendreGauss Integral','defintl','লেজান্ড্রে–গাউস পদ্ধতিতে যোগজ নির্ণয় করে।','Computes the integral using the Legendre–Gauss method.'],[5,'Romberg Integral','defintr','রম্বার্গ পদ্ধতিতে যোগজ নির্ণয় করে।','Computes the integral using the Romberg method.'],[6,'Gauss-Kronrod Integral','defintk','গাউস–ক্রনরড পদ্ধতিতে যোগজ নির্ণয় করে।','Computes the integral using the Gauss–Kronrod method.']].forEach(([n,t,fn,bn,en])=>row(n,'<span style="font-family:IBM Plex Mono,ui-monospace,monospace;font-size:1.1em">'+t+'</span>',T2(bn,en),fn+'(|,,)'));
  bd.append(mk('p',T2('\u099a\u09b2\u0995 X \u09ac\u09cd\u09af\u09ac\u09b9\u09be\u09b0 \u0995\u09b0\u09c1\u09a8 (ALPHA + \u0995\u09c0)','Use variable X (ALPHA + the x key)')))})}
 ACT.integ=integMenu;
+</script>
+<script>
+/* ===== symbolic derivative + canonical simplifier ===== */
+const N1=NZ(Q(1n)),N2=NZ(Q(2n));
+const qAdd=(a,b)=>Q(a.n*b.d+b.n*a.d,a.d*b.d),qMul=(a,b)=>Q(a.n*b.n,a.d*b.d),qNeg=a=>Q(-a.n,a.d),qInv=a=>Q(a.d,a.n);
+function qPowI(c,k){let r=Q(1n);const ng=k<0n,e=ng?-k:k;for(let i=0n;i<e;i++)r=qMul(r,c);return ng?qInv(r):r}
+function qPowR(c,e){if(e.d===1n){if(c.n===0n&&e.n<0n)return null;return qPowI(c,e.n)}if(c.n<0n)return null;const rn=root(c.n,e.d),rd=root(c.d,e.d);if(rn===null||rd===null)return null;return qPowI(Q(rn,rd),e.n)}
+function mergeT(T){const m=new Map();for(const t of T){const k=[...t.f].map(([k,v])=>k+'^'+v.e.n+'/'+v.e.d).sort().join('*'),cur=m.get(k);if(cur)cur.c=qAdd(cur.c,t.c);else m.set(k,{c:t.c,f:t.f})}return[...m.values()].filter(t=>t.c.n!==0n)}
+const xe=t=>{const v=t.f.get('X');return v?Number(v.e.n)/Number(v.e.d):0};
+function cTerms(n){const one=Q(1n);
+ const atom=(key,node,e)=>[{c:one,f:new Map([[key,{n:node,e}]])}];
+ const mulT=(A_,B_)=>{const R=[];for(const a of A_)for(const b of B_){const f=new Map(a.f);for(const[k,v]of b.f){if(f.has(k)){const e=qAdd(f.get(k).e,v.e);if(e.n===0n)f.delete(k);else f.set(k,{n:v.n,e})}else f.set(k,{n:v.n,e:v.e})}R.push({c:qMul(a.c,b.c),f})}return R};
+ switch(n.t){
+  case'n':return[{c:n.v,f:new Map()}];
+  case'x':return atom('X',XN,one);
+  case'c':return atom(n.s,n,one);
+  case'neg':return cTerms(n.a).map(t=>({c:qNeg(t.c),f:t.f}));
+  case'add':return cTerms(n.a).concat(cTerms(n.b));
+  case'mul':return mulT(cTerms(n.a),cTerms(n.b));
+  case'div':{const Td=mergeT(cTerms(n.b));if(!Td.length)throw ER();
+   if(Td.length===1){const d=Td[0],inv={c:qInv(d.c),f:new Map([...d.f].map(([k,v])=>[k,{n:v.n,e:qNeg(v.e)}]))};return mulT(cTerms(n.a),[inv])}
+   const bn=tNode(Td);return mulT(cTerms(n.a),atom(dispS(bn),bn,Q(-1n)))}
+  case'pow':{let q=null;try{const ev=evalExpr(calcS(n.b),EV0);if(isQ(ev))q=ev}catch(e){}
+   const Tb=mergeT(cTerms(n.a));
+   if(q){if(q.n===0n)return[{c:one,f:new Map()}];
+    if(Tb.length===1){const t=Tb[0],c2=qPowR(t.c,q);if(c2){const f=new Map();for(const[k,v]of t.f){const e=qMul(v.e,q);if(e.n!==0n)f.set(k,{n:v.n,e})}return[{c:c2,f}]}}
+    if(q.d===1n&&q.n===1n)return Tb;
+    if(Tb.length>1&&q.d===1n&&q.n>=2n&&q.n<=6n){let R=Tb;for(let i=1n;i<q.n;i++)R=mulT(R,Tb);return R}
+    const bn=tNode(Tb);return atom(dispS(bn),bn,q)}
+   const pw={t:'pow',a:tNode(Tb),b:tNode(mergeT(cTerms(n.b)))};return atom(dispS(pw),pw,one)}
+  case'f':{const args=n.a.map(a=>tNode(mergeT(cTerms(a)))),fnd={t:'f',name:n.name,a:args};
+   if(n.name==='ln'&&args[0].t==='c'&&args[0].s==='e')return[{c:one,f:new Map()}];
+   if(args.every(a=>!hasX(a)&&a.t!=='c')){try{const v=evalExpr(calcS(fnd),EV0);if(isQ(v))return[{c:v,f:new Map()}]}catch(e){}}
+   return atom(dispS(fnd),fnd,one)}}
+ throw new Error('NoDiff')}
+function termNode(t){const keys=[...t.f.keys()].sort((a,b)=>a==='X'?-1:b==='X'?1:a<b?-1:a>b?1:0),num_=[],den_=[];
+ for(const k of keys){const{n,e}=t.f.get(k),pos=e.n>0n,ae=pos?e:qNeg(e),b=(ae.n===1n&&ae.d===1n)?n:powN(n,NZ(ae));(pos?num_:den_).push(b)}
+ const prod=a=>a.reduce((x,y)=>x?mulN(x,y):y,null),ng=t.c.n<0n,ac=ng?qNeg(t.c):t.c;
+ let nn=prod(num_),dd=prod(den_),top=ac.n===1n?null:NZ(Q(ac.n)),bot=ac.d===1n?null:NZ(Q(ac.d)),node;
+ if(dd){if(bot)dd=mulN(bot,dd);nn=nn?(top?mulN(top,nn):nn):(top||N1);node={t:'div',a:nn,b:dd}}
+ else if(bot){const fr={t:'div',a:top||N1,b:bot};node=nn?mulN(fr,nn):fr}
+ else node=nn?(top?mulN(top,nn):nn):(top||N1);
+ return ng?negN(node):node}
+function tNode(T){T=mergeT(T);if(!T.length)return NZ(Q(0n));
+ T.sort((a,b)=>{const d=xe(b)-xe(a);if(d)return d;const ka=[...a.f.keys()].sort().join(),kb=[...b.f.keys()].sort().join();return ka<kb?-1:ka>kb?1:0});
+ let acc=null;for(const t of T){const nd=termNode(t);acc=acc?addN(acc,nd):nd}return acc}
+const canon=n=>tNode(cTerms(n));
+function dif(n){if(!hasX(n))return NZ(Q(0n));
+ const pi={t:'c',s:'\u03c0'},kk=mode.a==='DEG'?{t:'div',a:pi,b:NZ(Q(180n))}:mode.a==='GRAD'?{t:'div',a:pi,b:NZ(Q(200n))}:null,ik=mode.a==='DEG'?{t:'div',a:NZ(Q(180n)),b:pi}:mode.a==='GRAD'?{t:'div',a:NZ(Q(200n)),b:pi}:null,w=(x,k)=>k?mulN(k,x):x;
+ switch(n.t){
+  case'x':return N1;
+  case'neg':return negN(dif(n.a));
+  case'add':return addN(dif(n.a),dif(n.b));
+  case'mul':{if(!hasX(n.a))return mulN(n.a,dif(n.b));if(!hasX(n.b))return mulN(n.b,dif(n.a));return addN(mulN(dif(n.a),n.b),mulN(n.a,dif(n.b)))}
+  case'div':{if(!hasX(n.b))return dvN(dif(n.a),n.b);return{t:'div',a:addN(mulN(dif(n.a),n.b),negN(mulN(n.a,dif(n.b)))),b:powN(n.b,N2)}}
+  case'pow':{const hb=hasX(n.a),he=hasX(n.b);
+   if(!he){const e1=n.b.t==='n'?NZ(Q(n.b.v.n-n.b.v.d,n.b.v.d)):addN(n.b,NZ(Q(-1n)));return mulN(mulN(n.b,powN(n.a,e1)),dif(n.a))}
+   if(!hb){if(n.a.t==='c'&&n.a.s==='e')return mulN(n,dif(n.b));return mulN(mulN(n,fN('ln',n.a)),dif(n.b))}
+   return mulN(n,addN(mulN(dif(n.b),fN('ln',n.a)),{t:'div',a:mulN(n.b,dif(n.a)),b:n.a}))}
+  case'f':{if(n.a.length!==1)throw new Error('NoDiff');const u=n.a[0],du=dif(u),sq=()=>fN('sqrt',addN(N1,negN(powN(u,N2))));
+   switch(n.name){
+    case'sin':return mulN(w(fN('cos',u),kk),du);
+    case'cos':return negN(mulN(w(fN('sin',u),kk),du));
+    case'tan':return{t:'div',a:w(du,kk),b:powN(fN('cos',u),N2)};
+    case'cot':return negN({t:'div',a:w(du,kk),b:powN(fN('sin',u),N2)});
+    case'exp':return mulN(fN('exp',u),du);
+    case'ln':return{t:'div',a:du,b:u};
+    case'log':return{t:'div',a:du,b:mulN(u,fN('ln',NZ(Q(10n))))};
+    case'sqrt':return{t:'div',a:du,b:mulN(N2,fN('sqrt',u))};
+    case'abs':return{t:'div',a:mulN(u,du),b:fN('abs',u)};
+    case'asin':return w({t:'div',a:du,b:sq()},ik);
+    case'acos':return negN(w({t:'div',a:du,b:sq()},ik));
+    case'atan':return w({t:'div',a:du,b:addN(N1,powN(u,N2))},ik);
+    case'sinh':return mulN(fN('cosh',u),du);case'cosh':return mulN(fN('sinh',u),du);
+    case'tanh':return{t:'div',a:du,b:powN(fN('cosh',u),N2)};
+    default:throw new Error('NoDiff')}}
+  default:throw new Error('NoDiff')}}
+LAZY.deriv=(p,c)=>{const ast=parseAST(p[0],c),t=dispS(canon(dif(ast)));if(t==='0')return Q(0n);const v=Q(0n);v.sym=t;v.disp=true;return v};
+{const _e=err;err=function(e){if(e&&e.message==='NoDiff'){M.textContent=T2('এই ফাংশনের অন্তরক বের করা যায়নি','Cannot differentiate this expression');M.className='err';S.textContent=T2('সমর্থিত: বহুপদী, sin, cos, tan, e^, ln, log, √, গুণ/ভাগ/ঘাত','Supported: polynomials, sin, cos, tan, e^, ln, log, sqrt, products, quotients, powers');B.textContent='';return}_e(e)}}
+function derivMenu(){ov('d/dX',(bd,cl)=>{
+ const row=(n,html,desc,tpl)=>{const r=mk('div',null,'ir',()=>{cl();ins(tpl)}),m=mk('div');r.append(mk('b',String(n)));m.innerHTML=html;m.append(mk('p',desc));r.append(m);bd.append(r)};
+ row(1,'<span style="font-size:1.2em">d/dX ( f(X) )</span>',T2('f(x) এর অন্তরক সহগ (প্রতীকী): ফল একটি ফাংশন','Derivative of f(x), symbolic: the result is a function'),'deriv(|)');
+ row(2,'<span style="font-size:1.2em">d/dX f(X) |<sub>X=a</sub></span>',T2('x = a বিন্দুতে অন্তরকের মান (সংখ্যা)','Value of the derivative at x = a (a number)'),'diff(|,)');
+ bd.append(mk('p',T2('চলক X ব্যবহার করুন (ALPHA + কী) অথবা abc কীবোর্ডে x','Use variable X (ALPHA + key) or x on the abc keyboard')))})}
+ACT.deriv=derivMenu;
 </script>
 
 </body></html>
